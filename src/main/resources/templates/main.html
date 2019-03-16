@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>COMPARATOR_SITE</title>
+    <link href="css/mainPage.css" rel="stylesheet" >
+    <link href="css/simplePagination.css" rel="stylesheet" >
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+        <p><a href="/adminPage">ADMIN PAGE</a></p>
+        <h1>Г О Л О В Н А  С Т О Р І Н К А</h1>
+
+        <button class="load-products">load from site</button>
+        <button class="load-DB">load from DB</button>
+
+        <div class="select">
+            <label>
+                <select class="category_select">
+                    <option value="0">Виберіть категорію товару</option>
+                    <option value="1">Телефони</option>
+                    <option value="2">Планшети</option>
+                </select>
+            </label>
+            <label class="label-num-pages">
+                <p>К-сть елементів</p>
+                <select class="category_select num_pages">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="50">50</option>
+                </select>
+            </label>
+        </div>
+
+        <label class="search">
+            <input type="search" placeholder="Пошук" onkeypress="handle(event)">
+            <p>Найдено: <span class="result-search"></span></p>
+        </label>
+
+        <table class="table table-hover">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Модель</th>
+                <th scope="col">Ціна</th>
+                <th scope="col">Ссилка</th>
+            </tr>
+            </thead>
+            <tbody class="tbody">
+
+            </tbody>
+        </table>
+
+        <div id="pagination"></div>
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="/js/mainJs.js"></script>
+        <script src="/js/jquery.simplePagination.js"></script>
+</body>
+</html>

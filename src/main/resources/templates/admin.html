@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>COMPARATOR_SITE</title>
+		<link href="css/adminStyle.css" rel="stylesheet" >
+		
+		<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
+	</head>
+	<body>
+    <div id="loading" class="hidden"></div>
+    <div class="main">
+	<form>
+        <p><a href="/mainPage">Exit</a></p>
+    </form>
+        <h1>A D M I N</h1>
+        <div class="info-update">
+            <p>Оновити інформацію, що знаходиться в БД</p>
+            <button>ОБНОВИТИ</button>
+        </div>
+		<table border="" width="100%" cellpadding="7" class="table">
+		<caption>Іформація про заповнення в БД</caption>
+			<tr>
+				<th></th>
+				<th>Розетка</th>
+				<th>Hotline</th>
+			</tr>
+			<tr>
+				<th></th>
+				<th>шт</th>
+				<th>шт</th>
+			</tr>
+			<tr>
+				<td>Телефони<br><span>дата оновлення</span></td>
+				<td><span th:text="${rozTel}">158</span><br><span>11 Вер 2009р</span></td>
+				<td><span>158</span><br><span>11 Вер 2009р</span></td>
+			</tr>
+			<tr>
+				<td>Планшети<br><span>дата оновлення</span></td>
+				<td><span>158</span><br><span>11 Вер 2009р</span></td>
+				<td><span>158</span><br><span>11 Вер 2009р</span></td>
+			</tr>
+		</table>
+
+    <p class="solop">Блок налаштування WebClient, вибір сайту та категорії товару</p>
+    <div class="error hidden">Перевірте правильність заповнених селектів</div>
+    <div class="choose-div">
+            <div class="choose-load-div">
+                <p>WebClient налаштування:</p>
+                <label>
+                    BrowserVersion
+                    <select id="web-set">
+                        <option value="1">Chrome</option>
+                        <!--<option th:each="as : ${enumWeb}" th:text="${as}"></option>-->
+                    </select>
+                </label>
+                <label>
+                    SetCssEnabled:
+                    <select id="set-css">
+                        <option value="2">false</option>
+                        <!--<option value="0">Виберіть</option>-->
+                        <option value="1">true</option>
+                    </select>
+                </label>
+                <!--<br>-->
+                <label>
+                    SetJavaScriptEnabled:
+                    <select id="set-js">
+                        <option value="2">false</option>
+                        <!--<option value="0">Виберіть</option>-->
+                        <option value="1">true</option>
+                    </select>
+                </label>
+                <label>
+                    SetThrowExceptionOnScriptError:
+                    <select id="set-exeption">
+                        <option value="2">false</option>
+                        <!--<option value="0">Виберіть</option>-->
+                        <option value="1">true</option>
+                    </select>
+                </label>
+                <!--<br>-->
+                <label>
+                    WaitForBackgroundJavaScript, sec:
+                    <select id="wait-js">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                    </select>
+                </label>
+            </div>
+            <div class="choose-load-site">
+                <p><i>Для того щоб завантажити в БД - виберіть в селектах відповідні поля</i></p>
+                <label class="choose-site">Виберіть сайт
+                    <select>
+                        <option value='0'>Виберіть</option>
+                        <option value='1'>Розетка</option>
+                        <option value='2'>Hotline</option>
+                    </select>
+                </label>
+                <label class="choose-product">Виберіть товар
+                    <select>
+                        <option value='0'>Виберіть</option>
+                        <option value='1'>Телефони</option>
+                        <option value='2'>Планшети</option>
+                    </select>
+                </label>
+                <button class="btn-to-db">Закачати</button>
+            </div>
+		</div>
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+         <script src="/js/admin.js"></script>
+    </div>
+	</body>
+</html>
