@@ -4,6 +4,7 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import compare.site.dao.GeneralDao;
 import compare.site.entity.DateOfUpdate;
 import compare.site.entity.ProductAbstract;
 import compare.site.entity.rozetka.TabletsRozetka;
@@ -23,10 +24,12 @@ import java.util.Map;
 @Component
 public class SaveProduct {
 
+//    @Autowired
+//    private TelephoneRozetkaService telephoneService;
     @Autowired
-    private TelephoneRozetkaService telephoneService;
-    @Autowired
-    private TabletRozetkaService tabletRozetkaService;
+    private GeneralDao<? super ProductAbstract> generalDao;
+//    @Autowired
+//    private TabletRozetkaService tabletRozetkaService;
 //    @Autowired
 //    private T productService;
 
@@ -63,7 +66,8 @@ public class SaveProduct {
                 telephones.setModel(listModel.get(Math.toIntExact(count - 1)).asText());
                 telephones.setDescript(description);
                 telephones.setLinkOnSite(listLinks.get(Math.toIntExact(count - 1)).getHrefAttribute());
-                telephoneService.saveTelephone(telephones);
+//                telephoneService.saveTelephone(telephones);
+                generalDao.save(telephones);
 //                    telephones.setPriceTelephone(Integer.parseInt(price));
                 list.add(telephones);
             } else
@@ -73,7 +77,8 @@ public class SaveProduct {
                 tablets.setDescript(description);
                 tablets.setLinkOnSite(listLinks.get(Math.toIntExact(count - 1)).getHrefAttribute());
 //                    tablets.setPriceTelephone(Integer.parseInt(price));
-                    tabletRozetkaService.saveTablet(tablets);
+//                    tabletRozetkaService.saveTablet(tablets);
+                    generalDao.save(tablets);
                 list.add(tablets);
             }
         }

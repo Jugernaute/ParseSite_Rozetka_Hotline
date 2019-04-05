@@ -30,14 +30,14 @@ caption{
 	font-size: 24px;
     text-shadow: 1px 1px lightseagreen;
 }
-table tr:nth-child(3) td:first-child,
-table tr:nth-child(4) td:first-child{
+table tr:nth-child(3) td:first-child span:first-child,
+table tr:nth-child(4) td:first-child span:first-child{
 	font-size: larger;
     color: brown;
     text-shadow: 1px 1px black;
 }
-table tr:nth-child(3) td:first-child span,
-table tr:nth-child(4) td:first-child span{
+table tr:nth-child(3) td:first-child span:last-child,
+table tr:nth-child(4) td:first-child span:last-child{
 	font-size: medium;
     color: blue;
     text-shadow: none;

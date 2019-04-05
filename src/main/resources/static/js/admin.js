@@ -18,30 +18,32 @@ $('.btn-to-db').on('click', function () {
     let $setExept = $('#set-exeption option:selected');
     let $setJs = $('#set-js option:selected');
 
-    let valWeb = $web.val();
-    let valWait = $wait.val();
-    let valSetCss = $setCss.val();
-    let valExept = $setExept.val();
-    let valJs = $setJs.val();
-
     if (valSite!= 0 && valProduct!=0){
         $('.error').addClass('hidden');
-        let nameSite = $('.choose-site').find('select option:selected').text();
-        let nameProduct = $('.choose-product').find('select option:selected').text();
 
+        let site =  $('.choose-site').find('select option:selected').text();
+        let product = $('.choose-product').find('select option:selected').text();
         let textWeb = $web.text();
         let textWaitJs = $wait.text();
+        console.log(site);
+        console.log(product);
+        console.log(textWeb);
+        console.log(textWaitJs);
         let textCss = $setCss.text();
         let textJsEnabl = $setJs.text();
         let textExept = $setExept.text();
+
         $('#loading').removeClass('hidden');
         $('.main').addClass('blur');
         $.ajax({
 			url: '/admin/loadInDataBase',
-			data: {site: nameSite, product: nameProduct, /*browserVersion: textWeb,*/ waitForBackgroundJavaScript: textWaitJs, setCssEnabled: textCss,
+            type: 'post',
+            // contentType: "application/json",
+			data: {site: site, product: product, waitForBackgroundJavaScript: textWaitJs, setCssEnabled: textCss,
                 setJavaScriptEnabled: textJsEnabl, setThrowExceptionOnScriptError: textExept},
+            // dataType: 'json',
 			success: function (result) {
-                console.log(result);
+                // console.log(result);
                 $('#loading').addClass('hidden');
                 $('.main').removeClass('blur');
                 $.each(result, function (k, v) {

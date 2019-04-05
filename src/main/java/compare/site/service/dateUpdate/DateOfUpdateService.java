@@ -1,8 +1,11 @@
 package compare.site.service.dateUpdate;
 
 import compare.site.entity.DateOfUpdate;
+import compare.site.entity.EnumProducts;
+import compare.site.entity.EnumSite;
 
 public interface DateOfUpdateService {
-    DateOfUpdate save(DateOfUpdate dateOfUpdate);
-    DateOfUpdate updateDateOfLoadProduct(String date, String site, String product);
+    void save(DateOfUpdate dateOfUpdate);
+    void updateDateOfLoadProduct(String date, String site, String product);
+    DateOfUpdate findByProductsAndSite(EnumSite site, EnumProducts product);
 }

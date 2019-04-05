@@ -1,4 +1,4 @@
-package compare.site.controllers;
+package compare.site.service;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -13,9 +13,9 @@ import java.util.Map;
 import java.util.Set;
 
 @Component
-public class MethodsForController {
+public class WebClientSettings {
 
-    public WebClient webClientSettings(boolean setCssEnabled, boolean setJavaScriptEnabled,
+    public static WebClient webClientSettings(boolean setCssEnabled, boolean setJavaScriptEnabled,
                                        boolean setThrowExceptionOnScriptError, long waitForBackgroundJavaScript){
         WebClient webClient = new WebClient(BrowserVersion.CHROME);
         webClient.getOptions().setCssEnabled(setCssEnabled);
@@ -23,14 +23,5 @@ public class MethodsForController {
         webClient.getOptions().setThrowExceptionOnScriptError(setThrowExceptionOnScriptError);
         webClient.waitForBackgroundJavaScript(waitForBackgroundJavaScript);
         return webClient;
-    }
-
-    public String getSizeOfProductInDb(Map<Long, List<? super ProductAbstract>> longListMap){
-        long key = 0;
-        Set<Map.Entry<Long, List<? super ProductAbstract>>> entries = longListMap.entrySet();
-        for (Map.Entry<Long, List<? super ProductAbstract>> next : entries) {
-            key = next.getKey();
-        }
-        return String.valueOf(key);
     }
 }

@@ -11,6 +11,10 @@ import javax.persistence.*;
 @AttributeOverride(name="model",column=@Column(name="modelTelephones"))
 public class TelephonesRozetka  extends ProductAbstract {
 
+//    @ManyToOne(fetch = FetchType.EAGER,
+//    cascade = CascadeType.ALL)
+//    DateOfUpdate dateOfUpdate;
+
 
     public TelephonesRozetka() {
     }

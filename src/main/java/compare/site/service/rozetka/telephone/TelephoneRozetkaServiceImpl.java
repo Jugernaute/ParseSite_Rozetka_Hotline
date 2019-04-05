@@ -23,6 +23,11 @@ public class TelephoneRozetkaServiceImpl implements TelephoneRozetkaService{
     }
 
     @Override
+    public void deleteAllTelephones() {
+        telephonesDao.deleteAll();
+    }
+
+    @Override
     public List<TelephonesRozetka> findAllTelephones() {
         return telephonesDao.findAll();
     }

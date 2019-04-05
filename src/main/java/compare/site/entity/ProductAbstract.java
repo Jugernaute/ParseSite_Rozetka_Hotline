@@ -4,12 +4,13 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @MappedSuperclass
+//@Entity
 public abstract class ProductAbstract {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private int id;
+    private long id;
 
     @Column(name = "model")
     private String model;
@@ -43,11 +44,11 @@ public abstract class ProductAbstract {
         this.enumProducts = enumProducts;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

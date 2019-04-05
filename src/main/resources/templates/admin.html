@@ -19,27 +19,67 @@
             <button>ОБНОВИТИ</button>
         </div>
 		<table border="" width="100%" cellpadding="7" class="table">
-		<caption>Іформація про заповнення в БД</caption>
-			<tr>
-				<th></th>
-				<th>Розетка</th>
-				<th>Hotline</th>
-			</tr>
-			<tr>
-				<th></th>
-				<th>шт</th>
-				<th>шт</th>
-			</tr>
-			<tr>
-				<td>Телефони<br><span>дата оновлення</span></td>
-				<td><span th:text="${rozTel}">158</span><br><span>11 Вер 2009р</span></td>
-				<td><span>158</span><br><span>11 Вер 2009р</span></td>
-			</tr>
-			<tr>
-				<td>Планшети<br><span>дата оновлення</span></td>
-				<td><span>158</span><br><span>11 Вер 2009р</span></td>
-				<td><span>158</span><br><span>11 Вер 2009р</span></td>
-			</tr>
+
+            <caption>Іформація про заповнення в БД</caption>
+
+                    <tr>
+                        <th></th>
+                        <th th:text="${T(compare.site.entity.EnumSite).ROZETKA}"></th>
+                        <th th:text="${T(compare.site.entity.EnumSite).HOTLINE}"></th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th>шт</th>
+                        <th>шт</th>
+                    </tr>
+                <!--<th:block th:each="iter : ${map}">-->
+                    <!--<p th:if="${iter.key=='rozetkaTelephones'}" th:text="${iter.value}"></p>-->
+                    <!--<em ></em>-->
+                <!--</th:block>-->
+                    <tr >
+                        <td >
+                            <span th:text="${T(compare.site.entity.EnumProducts).TELEPHONES}"></span>
+                            <br>
+                            <span>дата оновлення</span>
+                        </td>
+                        <td>
+                            <span th:each="iter : ${map}" th:if="${iter.key=='rozetkaTelephones'}" th:text="${iter.value.size}">
+                            </span>
+                            <br>
+                            <span th:each="iter : ${map}" th:if="${iter.key=='rozetkaTelephones'}" th:text="${iter.value.dateOfUpdate}">
+                            </span>
+                        </td>
+
+                        <td>
+                            <span th:each="iter : ${map}" th:if="${iter.key=='hotlineTelephones'}" th:text="${iter.value.size}">
+                            </span>
+                            <br>
+                            <span th:each="iter : ${map}" th:if="${iter.key=='hotlineTelephones'}" th:text="${iter.value.dateOfUpdate}">
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span th:text="${T(compare.site.entity.EnumProducts).TABLETS}">
+                            </span>
+                            <br>
+                            <span>дата оновлення</span>
+                        </td>
+                        <td>
+                            <span th:each="iter : ${map}" th:if="${iter.key=='rozetkaTablets'}" th:text="${iter.value.size}">
+                            </span>
+                            <br>
+                            <span th:each="iter : ${map}" th:if="${iter.key=='rozetkaTablets'}" th:text="${iter.value.dateOfUpdate}">
+                            </span>
+                        </td>
+                        <td>
+                            <span th:each="iter : ${map}" th:if="${iter.key=='hotlineTablets'}" th:text="${iter.value.size}">
+                            </span>
+                            <br>
+                            <span th:each="iter : ${map}" th:if="${iter.key=='hotlineTablets'}" th:text="${iter.value.dateOfUpdate}">
+                            </span>
+                        </td>
+                    </tr>
 		</table>
 
     <p class="solop">Блок налаштування WebClient, вибір сайту та категорії товару</p>
@@ -99,7 +139,7 @@
                 <label class="choose-site">Виберіть сайт
                     <select>
                         <option value='0'>Виберіть</option>
-                        <option value='1'>Розетка</option>
+                        <option value='1'>Rozetka</option>
                         <option value='2'>Hotline</option>
                     </select>
                 </label>

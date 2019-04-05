@@ -1,99 +1,64 @@
 package compare.site.controllers.admin;
 
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlSpan;
-import compare.site.controllers.MethodsForController;
-import compare.site.entity.*;
-import compare.site.entity.rozetka.TabletsRozetka;
-import compare.site.entity.rozetka.TelephonesRozetka;
-import compare.site.methods.SaveProduct;
-import compare.site.service.dateUpdate.DateOfUpdateService;
+import compare.site.dto.DtoCreator;
+import compare.site.patternFactory.FactoryLoadInDB;
+import compare.site.service.ResponseLoad;
+import compare.site.service.WebClientSettings;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.*;
 
 @RestController
 public class AdminController {
 
     @Autowired
-    private SaveProduct saveProduct;
+    public DtoCreator dtoCreator;
     @Autowired
-    MethodsForController methodsForController;
-    @Autowired
-    private DateOfUpdateService dateService;
+    FactoryLoadInDB factory;
 
-
-    @GetMapping("/admin/loadInDataBase")
+/*
+*Its come from admin.js and using for load product in data base
+* */
+    @PostMapping("/admin/loadInDataBase")
     private Map<String,String> loadInDb (@RequestParam String site,
                                          @RequestParam String product,
                                          @RequestParam int waitForBackgroundJavaScript,
                                          @RequestParam boolean setThrowExceptionOnScriptError,
                                          @RequestParam boolean setJavaScriptEnabled,
-                                         @RequestParam boolean setCssEnabled){
+                                         @RequestParam boolean setCssEnabled) {
 
-        String sizeOfProductInDb = "";
-        String dateUpdate = "";
+
+/*
+* create dto -> SiteProductDto.class which include
+* @ String site;
+* @ String product;
+**/
+//        DtoCreator siteProductDto = new DtoCreator();
+        dtoCreator.createDto(site, product);
         Map<String,String> stringMap = new HashMap<>();
+/*
+* Setting for WebClient (see WebClientSettings.class)
+* default ->
+* @setCssEnabled=false
+* @setJavaScriptEnabled=false (if true ->  show price of products, but
+*   time of load it is very long!)
+* @setThrowExceptionOnScriptError=false
+* @waitForBackgroundJavaScript=false (time for how many times wait for load javascript,
+*   in our case - price of product)
+*   */
+        WebClient webClient = WebClientSettings.webClientSettings(setCssEnabled,setJavaScriptEnabled,setThrowExceptionOnScriptError,waitForBackgroundJavaScript*1000);
 
-        if (site.equalsIgnoreCase(EnumSite.РОЗЕТКА.toString())){
-            WebClient webClient = methodsForController.webClientSettings(setCssEnabled,setJavaScriptEnabled,setThrowExceptionOnScriptError,waitForBackgroundJavaScript*1000);
-            if (product.equalsIgnoreCase(EnumProducts.ТЕЛЕФОНИ.toString())){
-                try {
-                    /*
-                     * how much pages are with telephs
-                     * */
-                    HtmlPage pageHome = webClient.getPage("https://rozetka.com.ua/mobile-phones/c80003/preset=smartfon/");
-                    List<HtmlSpan> listCountOfPages = pageHome.getByXPath("//span[@class='paginator-catalog-l-i-active hidden']");
-                    int countOfPages = Integer.parseInt(listCountOfPages.get(listCountOfPages.size()-1).asText());
-
-//                    now using page
-                    int numPages = 2;
-                    for (int j = 1; j <= numPages; j++) {
-                        String http = "https://rozetka.com.ua/mobile-phones/c80003/page=" + String.valueOf(j) + ";preset=smartfon/";
-                        Map<Long, List<? super ProductAbstract>> longListMap = saveProduct.saveProduct(webClient, http, TelephonesRozetka.class);
-                        sizeOfProductInDb = methodsForController.getSizeOfProductInDb(longListMap);
-                    }
-
-                    webClient.close();
-                    DateOfUpdate dateOfUpdate = new DateOfUpdate(EnumSite.РОЗЕТКА, EnumProducts.ТЕЛЕФОНИ);
-                    dateUpdate = dateOfUpdate.getDateTime();
-                    System.out.println(dateUpdate);
-//                    dateService.save(dateOfUpdate);
-                    dateService.updateDateOfLoadProduct(dateUpdate, EnumSite.РОЗЕТКА.toString(), EnumSite.HOTLINE.toString());
-                    SaveProduct.nums = 0;
-                } catch (IOException e) {
-                    /*include logger*/
-                }
-            }
-            else if (product.equalsIgnoreCase(EnumProducts.ПЛАНШЕТИ.toString())){
-                int numPages = 2;
-                try {
-                     for (int j = 1; j <= numPages; j++) {
-                     String http = "https://rozetka.com.ua/tablets/c130309/filter/page=" + String.valueOf(j);
-
-                        Map<Long, List<? super ProductAbstract>> longListMap = saveProduct.saveProduct(webClient, http, TabletsRozetka.class);
-                        sizeOfProductInDb = methodsForController.getSizeOfProductInDb(longListMap);
-
-                     }
-                    webClient.close();
-                    DateOfUpdate dateOfUpdate = new DateOfUpdate(EnumSite.РОЗЕТКА, EnumProducts.ПЛАНШЕТИ);
-                    dateUpdate = dateOfUpdate.getDateTime();
-                    dateService.save(dateOfUpdate);
-                    SaveProduct.nums = 0;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }
-        stringMap.put("listSize", sizeOfProductInDb);
-        stringMap.put("dataUpdate", dateUpdate);
+/*
+* Depending of DtoCreator.class we using Factory.class */
+        ResponseLoad factory = this.factory.getFactory(dtoCreator, webClient);
+/*
+* response on view
+* @listSize - how many this products are in DB;
+* @dateUpdate - date of update table with product in DB*/
+        stringMap.put("listSize", factory.getSize());
+        stringMap.put("dataUpdate", factory.getDateUpdate());
         return stringMap;
     }
 

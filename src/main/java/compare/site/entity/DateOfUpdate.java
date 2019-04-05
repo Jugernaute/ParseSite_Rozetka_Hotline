@@ -1,24 +1,30 @@
 package compare.site.entity;
 
+import compare.site.entity.rozetka.TelephonesRozetka;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 public class DateOfUpdate {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int idDateOfUpdate;
 
-//    @Column(name = "dataUpdate")
-//    @DateTimeFormat(pattern = "EEE, d MMM yyyy HH:mm:ss")
     private String dateTime;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "site")
-    private String enumSite;
+    private EnumSite enumSite = EnumSite.ROZETKA;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "product")
-    private String enumProducts;
+    private EnumProducts enumProducts;
 
     public DateOfUpdate() {
     }
@@ -26,8 +32,12 @@ public class DateOfUpdate {
     public DateOfUpdate(EnumSite enumSite, EnumProducts enumProducts) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss");
         this.dateTime = ZonedDateTime.now().format(formatter);
-        this.enumSite = enumSite.name();
-        this.enumProducts = enumProducts.name();
+        this.enumSite = enumSite;
+        this.enumProducts = enumProducts;
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
     }
 
     public int getIdDateOfUpdate() {
@@ -42,19 +52,19 @@ public class DateOfUpdate {
         return dateTime;
     }
 
-    public String getEnumSite() {
+    public EnumSite getEnumSite() {
         return enumSite;
     }
 
-    public void setEnumSite(String enumSite) {
+    public void setEnumSite(EnumSite enumSite) {
         this.enumSite = enumSite;
     }
 
-    public String getEnumProducts() {
+    public EnumProducts getEnumProducts() {
         return enumProducts;
     }
 
-    public void setEnumProducts(String enumProducts) {
+    public void setEnumProducts(EnumProducts enumProducts) {
         this.enumProducts = enumProducts;
     }
 
