@@ -1,6 +1,7 @@
 package compare.site.service.dtoProductSite;
 
 import compare.site.dto.productSite.DtoProductSite;
+import compare.site.dto.productSite.ProductSite;
 import compare.site.entity.EnumProducts;
 import compare.site.entity.EnumSite;
 import compare.site.entity.ProductAbstract;
@@ -20,9 +21,11 @@ import java.util.Map;
 @Component
 public class DtoCreatorServiceImpl implements DtoCreatorService {
     @Autowired
-    DtoProductSite dtoProductSite;
+    private DtoProductSite dtoProductSite;
     @Autowired
-    GeneralService<? super ProductAbstract> generalService;
+    private GeneralService<? super ProductAbstract> generalService;
+    @Autowired
+    private ProductSite productSite;
 
     @Override
     public Map<String, CopySiteProductDto> adminInfoAboutAllProducts() {
@@ -39,7 +42,8 @@ public class DtoCreatorServiceImpl implements DtoCreatorService {
                     case ROZETKA:
                         if (products == EnumProducts.TELEPHONES) {
                             List listTelephonesRozetka = generalService.findAllProducts(TelephonesRozetka.class);
-                            dtoProductSite.createDto(EnumSite.ROZETKA.name(), EnumProducts.TELEPHONES.name());
+                            productSite.create(EnumSite.ROZETKA.name(), EnumProducts.TELEPHONES.name());
+                            dtoProductSite.createDto(productSite);
                             if (listTelephonesRozetka != null) {
                                 dtoProductSite.setSize(listTelephonesRozetka.size());
                             } else {
@@ -49,7 +53,8 @@ public class DtoCreatorServiceImpl implements DtoCreatorService {
                             map.put("rozetkaTelephones", copyClass);
 
                         } else if (products == EnumProducts.TABLETS) {
-                            dtoProductSite.createDto(site.name(), products.name());
+                            productSite.create(site.name(), products.name());
+                            dtoProductSite.createDto(productSite);
                             if (listTabletsRozetka != null) {
                                 dtoProductSite.setSize(listTabletsRozetka.size());
                             } else {
@@ -61,7 +66,8 @@ public class DtoCreatorServiceImpl implements DtoCreatorService {
                         break;
                     case HOTLINE:
                         if (products == EnumProducts.TELEPHONES) {
-                            dtoProductSite.createDto(site.name(), products.name());
+                            productSite.create(site.name(), products.name());
+                            dtoProductSite.createDto(productSite);
                             if (listTelephonesHotline != null) {
                                 dtoProductSite.setSize(listTelephonesHotline.size());
                             } else {
@@ -70,7 +76,8 @@ public class DtoCreatorServiceImpl implements DtoCreatorService {
                             CopySiteProductDto copyClass = new CopySiteProductDto(dtoProductSite);
                             map.put("hotlineTelephones", copyClass);
                         } else if (products == EnumProducts.TABLETS) {
-                            dtoProductSite.createDto(site.name(), products.name());
+                            productSite.create(site.name(), products.name());
+                            dtoProductSite.createDto(productSite);
                             if (listTabletsHotline != null) {
                                 dtoProductSite.setSize(listTabletsHotline.size());
                             } else {

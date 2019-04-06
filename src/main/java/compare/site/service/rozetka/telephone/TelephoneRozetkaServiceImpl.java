@@ -5,6 +5,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlSpan;
 import compare.site.dao.rozetka.TelephonesRozetkaDao;
 import compare.site.dto.productSite.DtoProductSite;
+import compare.site.dto.productSite.ProductSite;
 import compare.site.entity.dateOfUpdate.DateOfUpdate;
 import compare.site.entity.ProductAbstract;
 import compare.site.entity.rozetka.TelephonesRozetka;
@@ -44,7 +45,7 @@ public class TelephoneRozetkaServiceImpl extends LoadProductAbstract implements 
     }
 
     @Override
-    public ResponseLoadForFactory load(DtoProductSite siteProductDto, WebClient webClient) {
+    public ResponseLoadForFactory load(ProductSite productSite, WebClient webClient) {
         deleteAllTelephones();
         try {
             /*
@@ -62,7 +63,7 @@ public class TelephoneRozetkaServiceImpl extends LoadProductAbstract implements 
                 sizeOfProductInDb = GetNumberConcreteProductFromBase.getNumber(longListMap);
             }
             webClient.close();
-            DateOfUpdate dateOfUpdate = new DateOfUpdate(siteProductDto.getSite(), siteProductDto.getProduct());
+            DateOfUpdate dateOfUpdate = new DateOfUpdate(productSite.getSite(), productSite.getProduct());
             dateUpdateStr = dateOfUpdateService.saveOrUpdateDateOfLoadSiteProduct(dateOfUpdate);
             SaveProduct.nums = 0;
         } catch (Exception e) {

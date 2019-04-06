@@ -2,6 +2,7 @@ package compare.site.service.dateUpdate;
 
 import compare.site.dao.dateOfUpdate.DateOfUpdateDao;
 import compare.site.dto.productSite.DtoProductSite;
+import compare.site.dto.productSite.ProductSite;
 import compare.site.entity.dateOfUpdate.DateOfUpdate;
 import compare.site.entity.EnumProducts;
 import compare.site.entity.EnumSite;
@@ -16,7 +17,7 @@ public class DateOfUpdateServImpl implements DateOfUpdateService {
     @Autowired
     private DateOfUpdateDao dateOfUpdateDao;
     @Autowired
-    private DtoProductSite dtoProductSite;
+    private ProductSite productSite;
 
     @Override
     public void save(DateOfUpdate dateOfUpdate) {
@@ -38,8 +39,8 @@ public class DateOfUpdateServImpl implements DateOfUpdateService {
         String dateUpdate=null;
         try {
             dateUpdate = dateOfUpdate.getDateTime();
-            findByProductsAndSite(dtoProductSite.getSite(), dtoProductSite.getProduct()).getDateTime();
-            updateDateOfLoadProduct(dateUpdate, dtoProductSite.getSite().name(), dtoProductSite.getProduct().name());
+            findByProductsAndSite(productSite.getSite(), productSite.getProduct()).getDateTime();
+            updateDateOfLoadProduct(dateUpdate, productSite.getSite().name(), productSite.getProduct().name());
         } catch (NullPointerException e) {
             save(dateOfUpdate);
         }

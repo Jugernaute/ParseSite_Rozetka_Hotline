@@ -2,6 +2,7 @@ package compare.site.service;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import compare.site.dto.productSite.DtoProductSite;
+import compare.site.dto.productSite.ProductSite;
 import compare.site.service.rozetka.tablet.TabletRozetkaService;
 import compare.site.service.rozetka.telephone.TelephoneRozetkaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,21 +15,21 @@ public class FactoryLoadGoodsInBase {
     @Autowired
     private TabletRozetkaService tabletRozetkaService;
 
-    public ResponseLoadForFactory getFactory(DtoProductSite dtoCreator, WebClient webClient){
+    public ResponseLoadForFactory getFactory(ProductSite productSite, WebClient webClient){
         ResponseLoadForFactory productAbstract = null;
-        switch (dtoCreator.getSite()){
+        switch (productSite.getSite()){
             case ROZETKA:
-                switch (dtoCreator.getProduct()){
+                switch (productSite.getProduct()){
                     case TELEPHONES:
-                        productAbstract = telephoneRozetkaService.load(dtoCreator,webClient);
+                        productAbstract = telephoneRozetkaService.load(productSite,webClient);
                         break;
                     case TABLETS:
-                        productAbstract = tabletRozetkaService.load(dtoCreator,webClient);
+                        productAbstract = tabletRozetkaService.load(productSite,webClient);
                         break;
                 }
                 break;
             case HOTLINE:
-                switch (dtoCreator.getProduct()){
+                switch (productSite.getProduct()){
                     case TABLETS:
 //                        productAbstract = new TabletsHotlineLoad();
                         break;

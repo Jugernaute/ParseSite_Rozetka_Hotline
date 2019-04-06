@@ -2,6 +2,7 @@ package compare.site.service;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import compare.site.dto.productSite.DtoProductSite;
+import compare.site.dto.productSite.ProductSite;
 import compare.site.entity.ProductAbstract;
 import compare.site.methods.SaveProduct;
 import compare.site.service.dateUpdate.DateOfUpdateService;
@@ -22,7 +23,7 @@ public abstract class LoadProductAbstract {
     @Autowired
     public GeneralService<? super ProductAbstract> generalService;
     @Autowired
-    public DtoProductSite dtoProductSite;
+    public ProductSite productSite;
 
-    public abstract ResponseLoadForFactory load(DtoProductSite siteProductDto, WebClient webClient);
+    public abstract ResponseLoadForFactory load(ProductSite productSite, WebClient webClient);
 }

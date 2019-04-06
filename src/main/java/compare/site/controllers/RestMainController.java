@@ -1,6 +1,8 @@
 package compare.site.controllers;
 
+import compare.site.dto.productSite.ProductSite;
 import compare.site.dto.searchProductPage.DtoSearchObject;
+import compare.site.entity.EnumProducts;
 import compare.site.entity.ProductAbstract;
 import compare.site.entity.rozetka.TabletsRozetka;
 import compare.site.entity.rozetka.TelephonesRozetka;
@@ -11,6 +13,7 @@ import compare.site.service.rozetka.telephone.TelephoneRozetkaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -56,43 +59,115 @@ public class RestMainController {
 
         List<TelephonesRozetka> allProducts = generalService.findAllProducts(TelephonesRozetka.class);
 
-        System.out.println(dtoSearchObject);
-//        switch (dtoSearchObject.getSite())
-//        {
-//            case ROZETKA:
-//                if (dtoSearchObject.getProduct().equals(EnumProducts.TELEPHONES))
-//                {
-//                    if (!dtoSearchObject.getSearch().isEmpty())
-//                    {
-//                        Page<TelephonesRozetka> telephones =
-//                                telephoneRozetkaService.findAllByModelContains
-//                                (
-//                                        dtoSearchObject.getSearch(), PageRequest.of(0, dtoSearchObject.getNum())
-//                                );
-//                        listMap.put(telephones.getTotalPages(), telephones.getContent());
-//                        return listMap;
-//                    }
-//                    Page<? super ProductAbstract> telephones =
-//                            generalService.findAllPageUsingPageable
-//                                    (
-//                                            0, dtoSearchObject.getNum()
-//                                    );
-//                    listMap.put( telephones.getTotalPages(), telephones.getContent() );
-//                    return listMap;
-//                }
-//                else
-//                if (product.equalsIgnoreCase(EnumProducts.TABLETS.toString())){
-//                    if (!search.isEmpty()){
-//                        Page<TabletsRozetka> tablets = tabletRozetkaService.findAllByModelContains(search, PageRequest.of(0,num));
-//                        listMap.put(tablets.getTotalPages(), tablets.getContent());
-//                        return listMap;
-//                    }
-//                    Page<? super ProductAbstract> tablets = generalService.findAllPageUsingPageable(0, num);
-//                    listMap.put(tablets.getTotalPages(), tablets.getContent());
-//                    return listMap;
-//        }
+        ProductSite productSite = dtoSearchObject.getProductSite();
+        Pageable pageable = dtoSearchObject.getPageable();
+        String search = dtoSearchObject.getSearch();
 
-//        }
+        switch (productSite.getSite())
+        {
+            case ROZETKA:
+                if (productSite.getProduct().equals(EnumProducts.TELEPHONES))
+                {
+                    if (!search.isEmpty())
+                    {
+                        Page<TelephonesRozetka> telephones =
+                                telephoneRozetkaService.findAllByModelContains
+                                (
+                                        search, pageable
+                                );
+                        listMap.put(telephones.getTotalPages(), telephones.getContent());
+                        return listMap;
+                    }
+                    Page<? super ProductAbstract> telephones =
+                                    generalService.findAllPageUsingPageable
+                                    (
+                                            pageable.getPageNumber(), pageable.getPageSize()
+                                    );
+                    listMap.put( telephones.getTotalPages(), telephones.getContent() );
+                    return listMap;
+                } else if ( productSite.getProduct().equals( EnumProducts.TABLETS ) )
+                {
+                    if( !search.isEmpty() )
+                    {
+                        Page<TabletsRozetka> tablets = tabletRozetkaService.findAllByModelContains
+                                (
+                                        search, pageable
+                                );
+
+                        listMap.put(tablets.getTotalPages(), tablets.getContent());
+                        return listMap;
+                    }
+
+//                    Page<? super ProductAbstract> tablets = generalService.findAllPageUsingPageable
+//                            (
+//                                    pageable.getPageNumber(), pageable.getPageSize()
+//                            );
+//
+//                    listMap.put(tablets.getTotalPages(), tablets.getContent());
+                    return listMap;
+                }
+            }
+        return listMap;
+    }
+
+    @PostMapping("/main/pagination/page")
+    private Map selectPage (@RequestBody DtoSearchObject dtoSearchObject){
+        Map listMap = new HashMap<>();
+        System.out.println(dtoSearchObject);
+
+
+        ProductSite productSite = dtoSearchObject.getProductSite();
+        Pageable pageable = dtoSearchObject.getPageable();
+        String search = dtoSearchObject.getSearch();
+
+        switch (productSite.getSite())
+        {
+            case ROZETKA:
+                if (productSite.getProduct().equals(EnumProducts.TELEPHONES))
+                {
+                    if (!search.isEmpty())
+                    {
+                        Page<TelephonesRozetka> telephones =
+                                telephoneRozetkaService.findAllByModelContains
+                                        (
+                                                search, pageable
+                                        );
+                        listMap.put(telephones.getTotalPages(), telephones.getContent());
+                        return listMap;
+                    }
+                    Page<? super ProductAbstract> telephones =
+                            generalService.findAllPageUsingPageable
+                                    (
+                                            pageable.getPageNumber(), pageable.getPageSize()
+                                    );
+                    listMap.put( telephones.getTotalPages(), telephones.getContent() );
+                    return listMap;
+                } else if ( productSite.getProduct().equals( EnumProducts.TABLETS ) )
+                {
+                    if( !search.isEmpty() )
+                    {
+                        Page<TabletsRozetka> tablets = tabletRozetkaService.findAllByModelContains
+                                (
+                                        search, pageable
+                                );
+
+                        listMap.put(tablets.getTotalPages(), tablets.getContent());
+                        return listMap;
+                    }
+
+                    Page<TabletsRozetka> tablets = tabletRozetkaService.findAllPageUsingPageable
+                            (
+                                    pageable.getPageNumber(), pageable.getPageSize()
+                            );
+
+                    listMap.put(tablets.getTotalPages(), tablets.getContent());
+                    return listMap;
+                }
+        }
+        for (Object o : listMap.values())
+        {
+            System.out.println(">> " +o);
+        }
         return listMap;
     }
 

@@ -21,11 +21,13 @@ $('#pagination').on('click', function (e) {
     let current_page = $(this).find('.active .current').text();
     let search = $('.search input').val();
     let num_pages = $('.num_pages option:selected').val();
+    let site = $('.site-select option:selected').text();
+    let enum_product = $(".select .category_select:first-child option:selected").text();
     $.ajax({
-        url: '/main/pagination/',
-        data: {currentPage: current_page,
-            num: num_pages,
-            search: search},
+        url: '/main/pagination/page',
+        type: 'post',
+        data: JSON.stringify({size : num_pages, search : search, product : enum_product, site : site, page : current_page}),
+        contentType: "application/json",
         success: function (result) {
             let count = current_page*num_pages-num_pages;
             parseListFromController(result, count, current_page);

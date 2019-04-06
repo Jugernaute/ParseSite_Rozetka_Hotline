@@ -12,30 +12,27 @@ import org.springframework.stereotype.Component;
 @Component
 public class DtoProductSite {
     @Autowired
-    GeneralService<? super ProductAbstract> generalService;
-    @Autowired
     DateOfUpdateService dateOfUpdateService;
 
-    private EnumSite site;
-    private EnumProducts product;
+    private ProductSite productSite;
     private int size;
     private String dateOfUpdate;
 
     public DtoProductSite() {
     }
 
-    public void createDto(String site, String product ) {
-        for ( EnumSite enumSite1 : EnumSite.values() ) {
-            if( enumSite1.toString().equalsIgnoreCase(site) ) {
-                DtoProductSite.this.setSite(enumSite1);
-            }
-        }
-        for (EnumProducts enumProducts : EnumProducts.values()){
-            if (enumProducts.name().equalsIgnoreCase(product)){
-                DtoProductSite.this.setProduct(enumProducts);
-            }
-        }
-        DateOfUpdate byProductsAndSite = dateOfUpdateService.findByProductsAndSite(getSite(), getProduct());
+    public void createDto(ProductSite productSite) {
+//        for ( EnumSite enumSite1 : EnumSite.values() ) {
+//            if( enumSite1.toString().equalsIgnoreCase(site) ) {
+//                DtoProductSite.this.productSite.setSite(enumSite1);
+//            }
+//        }
+//        for (EnumProducts enumProducts : EnumProducts.values()){
+//            if (enumProducts.name().equalsIgnoreCase(product)){
+//                DtoProductSite.this.productSite.setProduct(enumProducts);
+//            }
+//        }
+        DateOfUpdate byProductsAndSite = dateOfUpdateService.findByProductsAndSite(productSite.getSite(), productSite.getProduct());
         if (byProductsAndSite!=null){
             this.dateOfUpdate = byProductsAndSite.getDateTime();
         }else {
@@ -43,21 +40,28 @@ public class DtoProductSite {
         }
     }
 
-    public EnumSite getSite() {
-        return site;
+    public ProductSite getProductSite() {
+        return productSite;
     }
 
-    public void setSite(EnumSite site) {
-        this.site = site;
+    public void setProductSite(ProductSite productSite) {
+        this.productSite = productSite;
     }
-
-    public EnumProducts getProduct() {
-        return product;
-    }
-
-    public void setProduct(EnumProducts product) {
-        this.product = product;
-    }
+//        public EnumSite getSite() {
+//        return site;
+//    }
+//
+//    public void setSite(EnumSite site) {
+//        this.site = site;
+//    }
+//
+//    public EnumProducts getProduct() {
+//        return product;
+//    }
+//
+//    public void setProduct(EnumProducts product) {
+//        this.product = product;
+//    }
 
     public int getSize() {
         return size;
@@ -75,14 +79,7 @@ public class DtoProductSite {
         this.dateOfUpdate = dateOfUpdate;
     }
 
-    @Override
-    public String toString() {
-        return "SiteProductDto{" +
-                "site=" + site +
-                ", product=" + product +
-                ", size=" + size +
-                '}';
-    }
+
 }
 
 

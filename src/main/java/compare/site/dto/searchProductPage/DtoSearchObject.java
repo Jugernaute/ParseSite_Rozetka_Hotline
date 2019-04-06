@@ -1,28 +1,26 @@
 package compare.site.dto.searchProductPage;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import compare.site.dto.Pageable;
-import compare.site.entity.EnumProducts;
-import compare.site.entity.EnumSite;
+import compare.site.dto.productSite.ProductSite;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 @JsonDeserialize(using = DtoSearchObjectDeserilizer.class)
 @Component
 public class DtoSearchObject {
-    private EnumSite site;
-    private EnumProducts product;
+    private ProductSite productSite;
     private Pageable pageable;
     private String search;
 
     public DtoSearchObject() {
     }
 
-    public EnumProducts getProduct() {
-        return product;
+    public ProductSite getProductSite() {
+        return productSite;
     }
 
-    public EnumSite getSite() {
-        return site;
+    public void setProductSite(ProductSite productSite) {
+        this.productSite = productSite;
     }
 
     public Pageable getPageable() {
@@ -31,14 +29,6 @@ public class DtoSearchObject {
 
     public void setPageable(Pageable pageable) {
         this.pageable = pageable;
-    }
-
-    public void setSite(EnumSite site) {
-        this.site = site;
-    }
-
-    public void setProduct(EnumProducts product) {
-        this.product = product;
     }
 
     public String getSearch() {
@@ -52,8 +42,7 @@ public class DtoSearchObject {
     @Override
     public String toString() {
         return "DtoSearchObject{" +
-                "site=" + site +
-                ", product=" + product +
+                "productSite=" + productSite +
                 ", pageable=" + pageable +
                 ", search='" + search + '\'' +
                 '}';

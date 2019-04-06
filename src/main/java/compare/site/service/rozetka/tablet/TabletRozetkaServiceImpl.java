@@ -5,6 +5,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlSpan;
 import compare.site.dao.rozetka.TabletsRozetkaDao;
 import compare.site.dto.productSite.DtoProductSite;
+import compare.site.dto.productSite.ProductSite;
 import compare.site.entity.dateOfUpdate.DateOfUpdate;
 import compare.site.entity.ProductAbstract;
 import compare.site.entity.rozetka.TabletsRozetka;
@@ -40,7 +41,7 @@ public class TabletRozetkaServiceImpl
     }
 
     @Override
-    public ResponseLoadForFactory load(DtoProductSite siteProductDto, WebClient webClient) {
+    public ResponseLoadForFactory load(ProductSite productSite, WebClient webClient) {
         int numPages = 2;
         try {
             /*
@@ -59,7 +60,7 @@ public class TabletRozetkaServiceImpl
                 sizeOfProductInDb = GetNumberConcreteProductFromBase.getNumber(longListMap);
             }
             webClient.close();
-            DateOfUpdate dateOfUpdateObj = new DateOfUpdate(siteProductDto.getSite(), siteProductDto.getProduct());
+            DateOfUpdate dateOfUpdateObj = new DateOfUpdate(productSite.getSite(), productSite.getProduct());
             dateUpdateStr = dateOfUpdateService.saveOrUpdateDateOfLoadSiteProduct(dateOfUpdateObj);
         } catch (Exception e) {
             System.out.println("++++++++++++++++" + e.getMessage());

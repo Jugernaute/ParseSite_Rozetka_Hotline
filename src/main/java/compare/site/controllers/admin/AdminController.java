@@ -2,6 +2,7 @@ package compare.site.controllers.admin;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import compare.site.dto.productSite.DtoProductSite;
+import compare.site.dto.productSite.ProductSite;
 import compare.site.service.FactoryLoadGoodsInBase;
 import compare.site.service.ResponseLoadForFactory;
 import compare.site.service.WebClientSettings;
@@ -14,9 +15,11 @@ import java.util.*;
 public class AdminController {
 
     @Autowired
-    public DtoProductSite dtoProductSite;
+    private DtoProductSite dtoProductSite;
     @Autowired
-    FactoryLoadGoodsInBase factory;
+    private FactoryLoadGoodsInBase factory;
+    @Autowired
+    private ProductSite productSite;
 
 /*
 *Its come from admin.js and using for load product in data base
@@ -35,8 +38,9 @@ public class AdminController {
 * @ String site;
 * @ String product;
 **/
-//        DtoCreator siteProductDto = new DtoCreator();
-        dtoProductSite.createDto(site, product);
+
+        productSite.create(site, product);
+        dtoProductSite.createDto(productSite);
         Map<String,String> stringMap = new HashMap<>();
 /*
 * Setting for WebClient (see WebClientSettings.class)
@@ -52,7 +56,7 @@ public class AdminController {
 
 /*
 * Depending of DtoCreator.class we using Factory.class */
-        ResponseLoadForFactory factory = this.factory.getFactory(dtoProductSite, webClient);
+        ResponseLoadForFactory factory = this.factory.getFactory(productSite, webClient);
 /*
 * response on view
 * @listSize - how many this products are in DB;
