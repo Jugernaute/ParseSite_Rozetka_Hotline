@@ -1,11 +1,12 @@
-package compare.site.service;
+package compare.site.service.general;
 
-import compare.site.dao.GeneralDao;
+import compare.site.dao.general.GeneralDao;
 import compare.site.dao.rozetka.TabletsRozetkaDao;
 import compare.site.dao.rozetka.TelephonesRozetkaDao;
 import compare.site.entity.ProductAbstract;
 import compare.site.entity.rozetka.TabletsRozetka;
 import compare.site.entity.rozetka.TelephonesRozetka;
+import compare.site.service.general.GeneralService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -61,10 +62,5 @@ public class GeneralServiceImpl<T extends ProductAbstract> implements GeneralSer
             System.out.println("error -> "+ e.getMessage());
         }
         return null;
-    }
-
-    @Override
-    public T findByEnumProductsAndEnumSite(String site, String product) {
-        return generalDao.findByEnumProductsAndEnumSite(site, product);
     }
 }

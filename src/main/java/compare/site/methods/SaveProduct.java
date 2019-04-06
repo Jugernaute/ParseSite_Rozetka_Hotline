@@ -4,13 +4,10 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlDivision;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import compare.site.dao.GeneralDao;
-import compare.site.entity.DateOfUpdate;
+import compare.site.dao.general.GeneralDao;
 import compare.site.entity.ProductAbstract;
 import compare.site.entity.rozetka.TabletsRozetka;
 import compare.site.entity.rozetka.TelephonesRozetka;
-import compare.site.service.rozetka.tablet.TabletRozetkaService;
-import compare.site.service.rozetka.telephone.TelephoneRozetkaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

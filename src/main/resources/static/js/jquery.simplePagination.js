@@ -43,7 +43,7 @@
 				}
 			}, options || {});
 
-			var self = this;
+			let self = this;
 
 			o.pages = o.pages ? o.pages : Math.ceil(o.items / o.itemsOnPage) ? Math.ceil(o.items / o.itemsOnPage) : 1;
 			if (o.currentPage)

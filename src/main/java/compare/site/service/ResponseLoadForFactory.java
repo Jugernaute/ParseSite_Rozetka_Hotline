@@ -1,11 +1,11 @@
 package compare.site.service;
 
-public class ResponseLoad {
+public class ResponseLoadForFactory {
 
     private String size;
     private String dateUpdate;
 
-    public ResponseLoad(String size, String dateUpdate) {
+    public ResponseLoadForFactory(String size, String dateUpdate) {
         this.size = size;
         this.dateUpdate = dateUpdate;
     }

@@ -1,6 +1,5 @@
 package compare.site.entity.rozetka;
 
-import compare.site.entity.DateOfUpdate;
 import compare.site.entity.EnumProducts;
 import compare.site.entity.EnumSite;
 import compare.site.entity.ProductAbstract;

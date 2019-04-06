@@ -1,6 +1,6 @@
-package compare.site.service.dtoCreator;
+package compare.site.service.dtoProductSite;
 
-import compare.site.service.CopySiteProductDto;
+import compare.site.dto.productSite.CopySiteProductDto;
 
 import java.util.Map;
 

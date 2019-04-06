@@ -1,12 +1,11 @@
-package compare.site.entity;
+package compare.site.entity.dateOfUpdate;
 
-import compare.site.entity.rozetka.TelephonesRozetka;
+import compare.site.entity.EnumProducts;
+import compare.site.entity.EnumSite;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Objects;
 
 @Entity

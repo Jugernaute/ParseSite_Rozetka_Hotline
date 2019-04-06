@@ -1,4 +1,4 @@
-package compare.site.service;
+package compare.site.service.general;
 
 import compare.site.entity.ProductAbstract;
 import compare.site.entity.rozetka.TabletsRozetka;
@@ -13,7 +13,5 @@ public interface GeneralService<T extends ProductAbstract> {
     List findAllProducts(Class<?> aClass);
     Page<T> findAllPageUsingPageable(int page, int size);
     Page<T> findAllByModelContains(String s, Pageable pageable);
-    T findByEnumProductsAndEnumSite(String site, String product);
-//    List findTypeAll(Class<?> aClass);
-//    List<TelephonesRozetka> findAllTelephonesRozetka ();
+
 }

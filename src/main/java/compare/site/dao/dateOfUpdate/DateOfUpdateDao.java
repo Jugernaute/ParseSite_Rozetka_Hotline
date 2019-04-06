@@ -1,6 +1,6 @@
-package compare.site.dao;
+package compare.site.dao.dateOfUpdate;
 
-import compare.site.entity.DateOfUpdate;
+import compare.site.entity.dateOfUpdate.DateOfUpdate;
 import compare.site.entity.EnumProducts;
 import compare.site.entity.EnumSite;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,9 +8,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 
 public interface DateOfUpdateDao extends JpaRepository<DateOfUpdate, Integer> {
     @Modifying //Modifying queries can only use void or int/Integer as return type!

@@ -1,6 +1,6 @@
-package compare.site.service.dtoCreator;
+package compare.site.service.dtoProductSite;
 
-import compare.site.dto.DtoCreator;
+import compare.site.dto.productSite.DtoProductSite;
 import compare.site.entity.EnumProducts;
 import compare.site.entity.EnumSite;
 import compare.site.entity.ProductAbstract;
@@ -8,8 +8,8 @@ import compare.site.entity.hotline.TabletsHotline;
 import compare.site.entity.hotline.TelephonesHotline;
 import compare.site.entity.rozetka.TabletsRozetka;
 import compare.site.entity.rozetka.TelephonesRozetka;
-import compare.site.service.CopySiteProductDto;
-import compare.site.service.GeneralService;
+import compare.site.dto.productSite.CopySiteProductDto;
+import compare.site.service.general.GeneralService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +20,7 @@ import java.util.Map;
 @Component
 public class DtoCreatorServiceImpl implements DtoCreatorService {
     @Autowired
-    DtoCreator dtoCreator;
+    DtoProductSite dtoProductSite;
     @Autowired
     GeneralService<? super ProductAbstract> generalService;
 
@@ -39,44 +39,44 @@ public class DtoCreatorServiceImpl implements DtoCreatorService {
                     case ROZETKA:
                         if (products == EnumProducts.TELEPHONES) {
                             List listTelephonesRozetka = generalService.findAllProducts(TelephonesRozetka.class);
-                            dtoCreator.createDto(EnumSite.ROZETKA.name(), EnumProducts.TELEPHONES.name());
+                            dtoProductSite.createDto(EnumSite.ROZETKA.name(), EnumProducts.TELEPHONES.name());
                             if (listTelephonesRozetka != null) {
-                                dtoCreator.setSize(listTelephonesRozetka.size());
+                                dtoProductSite.setSize(listTelephonesRozetka.size());
                             } else {
-                                dtoCreator.setSize(0);
+                                dtoProductSite.setSize(0);
                             }
-                            CopySiteProductDto copyClass = new CopySiteProductDto(dtoCreator);
+                            CopySiteProductDto copyClass = new CopySiteProductDto(dtoProductSite);
                             map.put("rozetkaTelephones", copyClass);
 
                         } else if (products == EnumProducts.TABLETS) {
-                            dtoCreator.createDto(site.name(), products.name());
+                            dtoProductSite.createDto(site.name(), products.name());
                             if (listTabletsRozetka != null) {
-                                dtoCreator.setSize(listTabletsRozetka.size());
+                                dtoProductSite.setSize(listTabletsRozetka.size());
                             } else {
-                                dtoCreator.setSize(0);
+                                dtoProductSite.setSize(0);
                             }
-                            CopySiteProductDto copyClass = new CopySiteProductDto(dtoCreator);
+                            CopySiteProductDto copyClass = new CopySiteProductDto(dtoProductSite);
                             map.put("rozetkaTablets", copyClass);
                         }
                         break;
                     case HOTLINE:
                         if (products == EnumProducts.TELEPHONES) {
-                            dtoCreator.createDto(site.name(), products.name());
+                            dtoProductSite.createDto(site.name(), products.name());
                             if (listTelephonesHotline != null) {
-                                dtoCreator.setSize(listTelephonesHotline.size());
+                                dtoProductSite.setSize(listTelephonesHotline.size());
                             } else {
-                                dtoCreator.setSize(0);
+                                dtoProductSite.setSize(0);
                             }
-                            CopySiteProductDto copyClass = new CopySiteProductDto(dtoCreator);
+                            CopySiteProductDto copyClass = new CopySiteProductDto(dtoProductSite);
                             map.put("hotlineTelephones", copyClass);
                         } else if (products == EnumProducts.TABLETS) {
-                            dtoCreator.createDto(site.name(), products.name());
+                            dtoProductSite.createDto(site.name(), products.name());
                             if (listTabletsHotline != null) {
-                                dtoCreator.setSize(listTabletsHotline.size());
+                                dtoProductSite.setSize(listTabletsHotline.size());
                             } else {
-                                dtoCreator.setSize(0);
+                                dtoProductSite.setSize(0);
                             }
-                            CopySiteProductDto copyClass = new CopySiteProductDto(dtoCreator);
+                            CopySiteProductDto copyClass = new CopySiteProductDto(dtoProductSite);
                             map.put("hotlineTablets", copyClass);
                             break;
                         }

@@ -1,16 +1,16 @@
-package compare.site.dto;
+package compare.site.dto.productSite;
 
-import compare.site.entity.DateOfUpdate;
+import compare.site.entity.dateOfUpdate.DateOfUpdate;
 import compare.site.entity.EnumProducts;
 import compare.site.entity.EnumSite;
 import compare.site.entity.ProductAbstract;
-import compare.site.service.GeneralService;
+import compare.site.service.general.GeneralService;
 import compare.site.service.dateUpdate.DateOfUpdateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DtoCreator {
+public class DtoProductSite {
     @Autowired
     GeneralService<? super ProductAbstract> generalService;
     @Autowired
@@ -21,18 +21,18 @@ public class DtoCreator {
     private int size;
     private String dateOfUpdate;
 
-    public DtoCreator() {
+    public DtoProductSite() {
     }
 
     public void createDto(String site, String product ) {
         for ( EnumSite enumSite1 : EnumSite.values() ) {
             if( enumSite1.toString().equalsIgnoreCase(site) ) {
-                DtoCreator.this.setSite(enumSite1);
+                DtoProductSite.this.setSite(enumSite1);
             }
         }
         for (EnumProducts enumProducts : EnumProducts.values()){
             if (enumProducts.name().equalsIgnoreCase(product)){
-                DtoCreator.this.setProduct(enumProducts);
+                DtoProductSite.this.setProduct(enumProducts);
             }
         }
         DateOfUpdate byProductsAndSite = dateOfUpdateService.findByProductsAndSite(getSite(), getProduct());

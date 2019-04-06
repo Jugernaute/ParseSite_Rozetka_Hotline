@@ -37,11 +37,21 @@ $('.label-num-pages').on('change',function () {
     let current_page = 1;
     let search = $('.search input').val();
     let num_pages = $('.num_pages option:selected').val();
+    let site = $('.site-select option:selected').text();
     let enum_product = $(".select .category_select:first-child option:selected").text();
+    let current = $(".active .current").text();
+    // ul [name = 'treeview']> option: li.selected
+    console.log(search);
+    console.log(num_pages);
+    console.log(site);
     console.log(enum_product);
+    console.log(current);
     $.ajax({
         url: '/main/pagination/selectItems',
-        data:{num:num_pages, search: search, product: enum_product},
+        type: 'post',
+        data: JSON.stringify({size : num_pages, search : search, product : enum_product, site : site, page : current}),
+        contentType: "application/json",
+        // dataType: "json",
         success: function (result) {
             let count = current_page*num_pages-num_pages;
             parseListFromController(result,count,current_page)
@@ -59,6 +69,7 @@ function handle(e){
             url: '/main/search',
             data: {search: search, num: num_pages},
             success: function (result) {
+                console.log(result);
                 $('.tbody').empty();
                 $('.result-search').empty();
                 let totalElements;

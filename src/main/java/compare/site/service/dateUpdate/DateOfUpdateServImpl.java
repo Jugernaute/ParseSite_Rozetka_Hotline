@@ -1,9 +1,11 @@
 package compare.site.service.dateUpdate;
 
-import compare.site.dao.DateOfUpdateDao;
-import compare.site.entity.DateOfUpdate;
+import compare.site.dao.dateOfUpdate.DateOfUpdateDao;
+import compare.site.dto.productSite.DtoProductSite;
+import compare.site.entity.dateOfUpdate.DateOfUpdate;
 import compare.site.entity.EnumProducts;
 import compare.site.entity.EnumSite;
+import compare.site.methods.SaveProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class DateOfUpdateServImpl implements DateOfUpdateService {
     @Autowired
     private DateOfUpdateDao dateOfUpdateDao;
+    @Autowired
+    private DtoProductSite dtoProductSite;
 
     @Override
     public void save(DateOfUpdate dateOfUpdate) {
@@ -27,5 +31,19 @@ public class DateOfUpdateServImpl implements DateOfUpdateService {
     @Override
     public DateOfUpdate findByProductsAndSite(EnumSite site, EnumProducts product) {
         return dateOfUpdateDao.findByEnumSiteAndEnumProducts(site,product);
+    }
+
+    @Override
+    public String saveOrUpdateDateOfLoadSiteProduct(DateOfUpdate dateOfUpdate) {
+        String dateUpdate=null;
+        try {
+            dateUpdate = dateOfUpdate.getDateTime();
+            findByProductsAndSite(dtoProductSite.getSite(), dtoProductSite.getProduct()).getDateTime();
+            updateDateOfLoadProduct(dateUpdate, dtoProductSite.getSite().name(), dtoProductSite.getProduct().name());
+        } catch (NullPointerException e) {
+            save(dateOfUpdate);
+        }
+        SaveProduct.nums = 0;
+        return dateUpdate;
     }
 }

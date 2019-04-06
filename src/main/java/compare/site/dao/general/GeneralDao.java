@@ -1,4 +1,4 @@
-package compare.site.dao;
+package compare.site.dao.general;
 
 import compare.site.entity.ProductAbstract;
 import org.springframework.data.domain.Page;
@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface GeneralDao <T extends ProductAbstract> extends JpaRepository<T, Integer> {
 
-    @Query(value = "SELECT * FROM parsing_site.tablets_rozetka WHERE model_tablets like ?1",
+    @Query(value = "SELECT * FROM parsing_site.telephones_rozetka WHERE parsing_site.tablets_rozetka.model_tablets like ?1",
     countQuery = "SELECT count(*) FROM parsing_site.tablets_rozetka WHERE model_tablets like ?1", nativeQuery = true)
     Page<T> findAllByModelContains(String s, Pageable pageable);
 

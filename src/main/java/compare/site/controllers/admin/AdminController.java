@@ -1,9 +1,9 @@
 package compare.site.controllers.admin;
 
 import com.gargoylesoftware.htmlunit.WebClient;
-import compare.site.dto.DtoCreator;
-import compare.site.patternFactory.FactoryLoadInDB;
-import compare.site.service.ResponseLoad;
+import compare.site.dto.productSite.DtoProductSite;
+import compare.site.service.FactoryLoadGoodsInBase;
+import compare.site.service.ResponseLoadForFactory;
 import compare.site.service.WebClientSettings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +14,9 @@ import java.util.*;
 public class AdminController {
 
     @Autowired
-    public DtoCreator dtoCreator;
+    public DtoProductSite dtoProductSite;
     @Autowired
-    FactoryLoadInDB factory;
+    FactoryLoadGoodsInBase factory;
 
 /*
 *Its come from admin.js and using for load product in data base
@@ -36,7 +36,7 @@ public class AdminController {
 * @ String product;
 **/
 //        DtoCreator siteProductDto = new DtoCreator();
-        dtoCreator.createDto(site, product);
+        dtoProductSite.createDto(site, product);
         Map<String,String> stringMap = new HashMap<>();
 /*
 * Setting for WebClient (see WebClientSettings.class)
@@ -52,7 +52,7 @@ public class AdminController {
 
 /*
 * Depending of DtoCreator.class we using Factory.class */
-        ResponseLoad factory = this.factory.getFactory(dtoCreator, webClient);
+        ResponseLoadForFactory factory = this.factory.getFactory(dtoProductSite, webClient);
 /*
 * response on view
 * @listSize - how many this products are in DB;
@@ -61,6 +61,4 @@ public class AdminController {
         stringMap.put("dataUpdate", factory.getDateUpdate());
         return stringMap;
     }
-
-
 }

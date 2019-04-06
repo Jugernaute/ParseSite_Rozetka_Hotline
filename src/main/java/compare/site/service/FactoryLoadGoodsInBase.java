@@ -1,30 +1,29 @@
-package compare.site.patternFactory;
+package compare.site.service;
 
 import com.gargoylesoftware.htmlunit.WebClient;
-import compare.site.dto.DtoCreator;
-import compare.site.service.ResponseLoad;
-import compare.site.service.TabletsRozetkaLoad;
-import compare.site.service.TelephonesRozetkaLoad;
+import compare.site.dto.productSite.DtoProductSite;
+import compare.site.service.rozetka.tablet.TabletRozetkaService;
+import compare.site.service.rozetka.telephone.TelephoneRozetkaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FactoryLoadInDB {
+public class FactoryLoadGoodsInBase {
     @Autowired
-    private TelephonesRozetkaLoad telephonesRozetkaLoad;
+    private TelephoneRozetkaService telephoneRozetkaService;
     @Autowired
-    private TabletsRozetkaLoad tabletsRozetkaLoad;
+    private TabletRozetkaService tabletRozetkaService;
 
-    public ResponseLoad getFactory(DtoCreator dtoCreator, WebClient webClient){
-        ResponseLoad productAbstract = null;
+    public ResponseLoadForFactory getFactory(DtoProductSite dtoCreator, WebClient webClient){
+        ResponseLoadForFactory productAbstract = null;
         switch (dtoCreator.getSite()){
             case ROZETKA:
                 switch (dtoCreator.getProduct()){
                     case TELEPHONES:
-                        productAbstract = telephonesRozetkaLoad.load(dtoCreator,webClient);
+                        productAbstract = telephoneRozetkaService.load(dtoCreator,webClient);
                         break;
                     case TABLETS:
-                        productAbstract = tabletsRozetkaLoad.load(dtoCreator,webClient);
+                        productAbstract = tabletRozetkaService.load(dtoCreator,webClient);
                         break;
                 }
                 break;
