@@ -14,54 +14,63 @@ $('.load-products').on('click', function () {
 });
 
 
-/*choose page on pagination--------------------------------------------------*/
-
+/*
+* choose page on pagination
+* */
 $('#pagination').on('click', function (e) {
     e.preventDefault();
-    let current_page = $(this).find('.active .current').text();
-    let search = $('.search input').val();
-    let num_pages = $('.num_pages option:selected').val();
-    let site = $('.site-select option:selected').text();
-    let enum_product = $(".select .category_select:first-child option:selected").text();
+    let fields = collectFields();
+
     $.ajax({
         url: '/main/pagination/page',
         type: 'post',
-        data: JSON.stringify({size : num_pages, search : search, product : enum_product, site : site, page : current_page}),
+        data: JSON.stringify
+        (
+            {
+                size : fields.num_page,
+                search : fields.search,
+                product : fields.enum_product,
+                site : fields.site,
+                page : fields.current_page
+            }
+        ),
         contentType: "application/json",
         success: function (result) {
-            let count = current_page*num_pages-num_pages;
-            parseListFromController(result, count, current_page);
+            let count = fields.current_page*fields.num_page-fields.num_page;
+            parseListFromController(result, count, fields.current_page);
         }
     })
 });
 
 $('.label-num-pages').on('change',function () {
     let current_page = 1;
-    let search = $('.search input').val();
-    let num_pages = $('.num_pages option:selected').val();
-    let site = $('.site-select option:selected').text();
-    let enum_product = $(".select .category_select:first-child option:selected").text();
-    let current = $(".active .current").text();
-    // ul [name = 'treeview']> option: li.selected
-    console.log(search);
-    console.log(num_pages);
-    console.log(site);
-    console.log(enum_product);
-    console.log(current);
+    let fields = collectFields();
+
     $.ajax({
         url: '/main/pagination/selectItems',
         type: 'post',
-        data: JSON.stringify({size : num_pages, search : search, product : enum_product, site : site, page : current}),
+        data: JSON.stringify
+        (
+            {
+                size : fields.num_page,
+                search : fields.search,
+                product : fields.enum_product,
+                site : fields.site,
+                page : fields.current_page
+            }
+        ),
         contentType: "application/json",
-        // dataType: "json",
         success: function (result) {
-            let count = current_page*num_pages-num_pages;
+            let count = current_page*fields.num_page-fields.num_page;
             parseListFromController(result,count,current_page)
         }
     })
 });
 
 /*------------  search function   -------------------*/
+/*
+* execute after press key 'enter'
+* */
 function handle(e){
     if(e.keyCode === 13){
         let search = $('.search input').val();
@@ -147,15 +156,9 @@ $(on).on('click',function () {
 $('.category_select').on('change', function () {
 
     $('.search').find('p').css('display', 'none');
-    let select_category = $(".category_select option:selected").val();
     let enum_product = $(".select .category_select:first-child option:selected").text();
-    console.log(select_category);
     console.log(enum_product);
-    if (select_category == 1) {
 
-    }
-    else if(select_category==2){
-                                    //    планшети
         let current_page = 1;
         // console.log(current_page);
         let search = $('.search input').val();
@@ -169,7 +172,6 @@ $('.category_select').on('change', function () {
                 parseListFromController(result,count, current_page);
             }
     })
-    }
 });
 
                 /*>>>>>>>>>>>>>>>>>>    functions   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
@@ -191,4 +193,26 @@ function parseListFromController(result, count, current_page) {
                 '<td>'+y.price+'</td><td><a href="'+y.linkOnSite+'" class="giperlink">link</a></td></tr>');
         })
     })
+}
+
+/*
+* collects information from:
+* @search - input search;
+* @enum_product - select of enumProduct;
+* @current_page - from pagination selected page;
+* @num_pages - from select how much items display in table;
+* @site - select site;
+* Its using for each request to DataBase, which return products
+* */
+function collectFields() {
+
+        let responseArr = {};
+
+    responseArr.current_page = $('.active .current').text();
+    responseArr.search = $('.search input').val();
+    responseArr.num_page = $('.num_pages option:selected').val();
+    responseArr.site = $('.site-select option:selected').text();
+    responseArr.enum_product = $(".select .category_select:first-child option:selected").text();
+
+        return responseArr;
 }
