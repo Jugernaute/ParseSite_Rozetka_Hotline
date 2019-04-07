@@ -41,7 +41,13 @@ public class ResponseProductMainPage {
                                             (
                                                     search, pageable
                                             );
-                            listMap.put(telephones.getTotalPages(), telephones.getContent());
+                            String s = Integer.toString(telephones.getTotalPages())+"."+Long.toString(telephones.getTotalElements());
+                            listMap.put(s, telephones.getContent());
+                            int c = 0;
+                            for (TelephonesRozetka telephone : telephones) {
+                                c++;
+                                System.out.println(c+" >> " +telephone.getModel());
+                            }
                             return listMap;
                         }
                         Page<TelephonesRozetka> telephones =
@@ -49,7 +55,8 @@ public class ResponseProductMainPage {
                                         (
                                                 pageable.getPageNumber(), pageable.getPageSize()
                                         );
-                        listMap.put(telephones.getTotalPages(), telephones.getContent());
+                        String s = Integer.toString(telephones.getTotalPages())+"."+Long.toString(telephones.getTotalElements());
+                        listMap.put(s, telephones.getContent());
                         return listMap;
                     } else if (productSite.getProduct().equals(EnumProducts.TABLETS)) {
                         if (!search.isEmpty()) {
@@ -57,8 +64,8 @@ public class ResponseProductMainPage {
                                     (
                                             search, pageable
                                     );
-
-                            listMap.put(tablets.getTotalPages(), tablets.getContent());
+                            String s = Integer.toString(tablets.getTotalPages())+"."+Long.toString(tablets.getTotalElements());
+                            listMap.put(s, tablets.getContent());
                             return listMap;
                         }
 
@@ -67,7 +74,8 @@ public class ResponseProductMainPage {
                                         pageable.getPageNumber(), pageable.getPageSize()
                                 );
 
-                        listMap.put(tablets.getTotalPages(), tablets.getContent());
+                        String s = Integer.toString(tablets.getTotalPages())+"."+Long.toString(tablets.getTotalElements());
+                        listMap.put(s, tablets.getContent());
                         return listMap;
                     }
             }

@@ -41,11 +41,12 @@ $('.label-num-pages').on('change',function () {
                 search : fields.search,
                 product : fields.enum_product,
                 site : fields.site,
-                page : fields.current_page
+                page :current_page
             }
         ),
         contentType: "application/json",
         success: function (result) {
+            console.log(result);
             let count = current_page*fields.num_page-fields.num_page;
             parseListFromController(result,count,current_page)
         }
@@ -58,41 +59,26 @@ $('.label-num-pages').on('change',function () {
 * */
 function handle(e){
     if(e.keyCode === 13){
-        let search = $('.search input').val();
+        let fields = collectFields();
         let current_page = 1;
-        let num_pages = $('.num_pages option:selected').val();
         $.ajax({
             url: '/main/search',
-            data: {search: search, num: num_pages},
+            type: 'post',
+            contentType: 'application/json',
+            data: JSON.stringify
+            (
+                {
+                    search: fields.search,
+                    size: fields.num_page,
+                    site: fields.site,
+                    page: current_page,
+                    product: fields.enum_product
+                }
+            ),
             success: function (result) {
-                console.log(result);
-                $('.tbody').empty();
-                $('.result-search').empty();
-                let totalElements;
-                $('.search').find('p').css('display','block');
-                let count = current_page*num_pages-num_pages;
-               $.each(result, function (k, v) {
-                   let s = k.toString();
-                   let number = s.indexOf('.');
-                   let totalPage = s.substring(0, s.indexOf('.'));
-                   totalElements = s.substring(s.indexOf('.')+1, s.length);
-                   $(function() {
-                       $('#pagination').pagination({
-                           pages:totalPage,
-                           currentPage: current_page,
-                           cssStyle: 'light-theme'
-                       });
-                   });
-                   $.each(v, function (x, y) {
-                       count++;
-                       $('.tbody').append('<tr><th scope="row">'+count+'</th><td class="td_cl"><p style="color: blue">'+y.model+
-                           '</p><div class="hidden">'+y.descript+'</div></td>' +
-                           '<td>'+y.price+'</td><td><a href="'+y.linkOnSite+'" class="giperlink">link</a></td></tr>');
-                   })
-               });
-                // parseListFromController(result,count,current_page);
+                let count = current_page*fields.num_page-fields.num_page;
+                parseListFromController(result,count,current_page);
 
-                $('.result-search').append(totalElements + " результатів");
             }
         })
 
@@ -133,7 +119,7 @@ $('.category_select').on('change', function () {
             data: JSON.stringify
             (
                 {
-                    page: current_page,
+                    page: current_page, // only 1 must be!!!
                     search: fields.search,
                     size: fields.num_page,
                     product: fields.enum_product,
@@ -151,10 +137,16 @@ $('.category_select').on('change', function () {
 
 function parseListFromController(result, count, current_page) {
     $('.tbody').empty();
+    let totalElements;
+    $('.result-search').empty();
+    $('.search').find('p').css('display','block');
     $.each(result, function (k, v) {
+        let str = k.toString();
+        let totalPage = str.substring(0, str.indexOf('.'));
+        totalElements = str.substring(str.indexOf('.')+1, str.length);
         $(function() {
             $('#pagination').pagination({
-                pages:k,
+                pages:totalPage,
                 currentPage: current_page,
                 cssStyle: 'light-theme'
             });
@@ -165,7 +157,8 @@ function parseListFromController(result, count, current_page) {
                 '</p><div class="hidden">'+y.descript+'</div></td>' +
                 '<td>'+y.price+'</td><td><a href="'+y.linkOnSite+'" class="giperlink">link</a></td></tr>');
         })
-    })
+    });
+    $('.result-search').append(totalElements + " результатів");
 }
 
 /*

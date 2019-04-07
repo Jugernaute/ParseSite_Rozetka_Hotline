@@ -1,35 +1,20 @@
 package compare.site.controllers;
 
-import compare.site.dto.productSite.ProductSite;
 import compare.site.dto.searchProductPage.DtoSearchObject;
-import compare.site.entity.EnumProducts;
-import compare.site.entity.ProductAbstract;
 import compare.site.entity.rozetka.TabletsRozetka;
-import compare.site.entity.rozetka.TelephonesRozetka;
-import compare.site.methods.SaveProduct;
 import compare.site.service.ResponseProductMainPage;
-import compare.site.service.general.GeneralService;
 import compare.site.service.rozetka.tablet.TabletRozetkaService;
-import compare.site.service.rozetka.telephone.TelephoneRozetkaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.*;
 
 @RestController
 public class RestMainController {
     @Autowired
-    private TelephoneRozetkaService telephoneRozetkaService;
-    @Autowired
     private TabletRozetkaService tabletRozetkaService;
     @Autowired
     private ResponseProductMainPage responseProductMainPage;
-    @Autowired
-    private GeneralService<? super ProductAbstract> generalService;
 
 
 
@@ -51,15 +36,12 @@ public class RestMainController {
         return responseProductMainPage.response(dtoSearchObject);
     }
 
-    @GetMapping("/main/search")
-    private Map<String, List<TabletsRozetka>> search(@RequestParam int num,
-                                                     @RequestParam String search){
+    @PostMapping("/main/search")
+    private Map search(@RequestBody DtoSearchObject dtoSearchObject){
+        int count =0;
+        Map<String, List<TabletsRozetka>> response = responseProductMainPage.response(dtoSearchObject);
 
-        Page<TabletsRozetka> telephones = tabletRozetkaService.findAllByModelContains(search, PageRequest.of(0,num));
-        Map<String,List<TabletsRozetka>> listMap = new HashMap<>();
-        String s = Integer.toString(telephones.getTotalPages())+"."+Long.toString(telephones.getTotalElements());
-        listMap.put(s, telephones.getContent());
-        return listMap;
+        return response;
     }
 
 

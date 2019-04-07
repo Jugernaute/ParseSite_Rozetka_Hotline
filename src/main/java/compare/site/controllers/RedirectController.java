@@ -13,6 +13,6 @@ public class RedirectController {
 
     @GetMapping("/adminPage")
     private String adminPage(){
-        return "admin";
+        return "redirect:/";
     }
 }
