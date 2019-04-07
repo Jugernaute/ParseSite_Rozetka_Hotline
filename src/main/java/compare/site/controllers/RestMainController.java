@@ -32,17 +32,7 @@ public class RestMainController {
     private GeneralService<? super ProductAbstract> generalService;
 
 
-    @GetMapping("/main/loadTelephones")
-    private Map<Integer, List<? super ProductAbstract>> load (@RequestParam int num) throws IOException {
 
-
-
-        Page<? super ProductAbstract> telephones = generalService.findAllPageUsingPageable(0, num);
-
-        Map<Integer,List<? super ProductAbstract>> listMap = new HashMap<>();
-        listMap.put(telephones.getTotalPages()-1,telephones.getContent());
-        return listMap;
-        }
 //        File file = new File("C:\\Users\\User\\HACKING\\lEARNING\\Parsing\\parsing_example_1\\src\\main\\resources\\static\\temp.txt");
 //        FileWriter fileWriter = new FileWriter("C:\\Users\\User\\HACKING\\lEARNING\\Parsing\\parsing_example_1\\src\\main\\resources\\static\\temp.txt");
 //        fileWriter.write(page.asXml());
@@ -51,12 +41,12 @@ public class RestMainController {
 //        return telephonesSet;
 
 
-    @PostMapping("/main/pagination/selectItems")
+    @PostMapping("/main/selectItems")
     private Map selectItems (@RequestBody DtoSearchObject dtoSearchObject){
         return responseProductMainPage.response(dtoSearchObject);
     }
 
-    @PostMapping("/main/pagination/page")
+    @PostMapping("/main/page")
     private Map selectPage (@RequestBody DtoSearchObject dtoSearchObject){
         return responseProductMainPage.response(dtoSearchObject);
     }
@@ -73,21 +63,9 @@ public class RestMainController {
     }
 
 
-    @GetMapping("main/loadTablets")
-    public Map<Integer,List<TabletsRozetka>> loadTablets (/*@RequestParam int currentPage,*/
-                                                   @RequestParam int num,
-                                                   @RequestParam String search,
-                                                   @RequestParam String product) throws IOException {
-
-        Map<Integer,List<TabletsRozetka>> listMap = new HashMap<>();
-        if (!search.isEmpty()){
-            Page<TabletsRozetka> tablets = tabletRozetkaService.findAllByModelContains(search, PageRequest.of(0, num));
-            listMap.put(tablets.getTotalPages(), tablets.getContent());
-            return listMap;
-        }
-        Page<TabletsRozetka> tablets = tabletRozetkaService.findAllPageUsingPageable(0, num);
-        listMap.put(tablets.getTotalPages(), tablets.getContent());
-        return listMap;
+    @PostMapping("main/loadTablets")
+    public Map loadTablets (@RequestBody DtoSearchObject dtoSearchObject) {
+        return responseProductMainPage.response(dtoSearchObject);
     }
 
 

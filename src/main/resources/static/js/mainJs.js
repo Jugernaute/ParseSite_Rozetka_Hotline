@@ -1,18 +1,3 @@
-/*  click on button load from site*/
-
-$('.load-products').on('click', function () {
-    let num_pages = $('.num_pages option:selected').val();
-    let current_page = $(this).find('.active .current').text();
-    $.ajax({
-        url: 'http://localhost:8080/main/loadTelephones',
-        data: {num: num_pages},
-        success: function (result) {
-            let count = 0;
-                parseListFromController(result, count, current_page)
-        },
-    })
-});
-
 
 /*
 * choose page on pagination
@@ -22,7 +7,7 @@ $('#pagination').on('click', function (e) {
     let fields = collectFields();
 
     $.ajax({
-        url: '/main/pagination/page',
+        url: '/main/page',
         type: 'post',
         data: JSON.stringify
         (
@@ -47,7 +32,7 @@ $('.label-num-pages').on('change',function () {
     let fields = collectFields();
 
     $.ajax({
-        url: '/main/pagination/selectItems',
+        url: '/main/selectItems',
         type: 'post',
         data: JSON.stringify
         (
@@ -116,24 +101,6 @@ function handle(e){
     }
 
 
-$('.load-DB').on('click', function () {
-    let current_page = $('#pagination').find('.active .current').text();
-    $.ajax({
-        url: 'http://localhost:8080/main/loadProductsDB',
-        success: function (result) {
-            $('.tbody').empty();
-            let count = 0;
-            $.each(result, function (k, v) {
-                count++;
-                $('.tbody').append('<tr><th scope="row">'+count+'</th><td class="td_cl"><p style="color: blue">'+v.model+
-                    '</p><div class="hidden">'+v.descript+'</div></td>' +
-                    '<td>'+v.price+'</td><td><a href="'+v.linkOnSite+'" class="giperlink">link</a></td></tr>')
-            });
-        }
-    })
-});
-
-
 $('.tbody tr').on('click','tr:has(.td_cl)', function(e) {
     e.preventDefault();
     let q = $(this).find('tr:hover a').text();
@@ -156,19 +123,25 @@ $(on).on('click',function () {
 $('.category_select').on('change', function () {
 
     $('.search').find('p').css('display', 'none');
-    let enum_product = $(".select .category_select:first-child option:selected").text();
-    console.log(enum_product);
+    let current_page = 1;
+    let fields = collectFields();
 
-        let current_page = 1;
-        // console.log(current_page);
-        let search = $('.search input').val();
-        let num_pages = $('.num_pages option:selected').val();
         $.ajax({
             url: '/main/loadTablets',
-            data: {/*currentPage: current_page,*/ search: search, num: num_pages, product: enum_product},
+            type: 'post',
+            contentType: "application/json",
+            data: JSON.stringify
+            (
+                {
+                    page: current_page,
+                    search: fields.search,
+                    size: fields.num_page,
+                    product: fields.enum_product,
+                    site: fields.site
+                }
+            ),
             success: function (result) {
-                let count = current_page*num_pages-num_pages;
-                // console.log(result);
+                let count = current_page*fields.num_page-fields.num_page;
                 parseListFromController(result,count, current_page);
             }
     })

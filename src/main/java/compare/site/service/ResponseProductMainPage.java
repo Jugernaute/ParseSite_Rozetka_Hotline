@@ -27,52 +27,50 @@ public class ResponseProductMainPage {
     private TabletRozetkaService tabletRozetkaService;
 
     public Map response(DtoSearchObject dtoSearchObject) {
+        Map listMap = new HashMap<>();
+        ProductSite productSite = dtoSearchObject.getProductSite();
+        Pageable pageable = dtoSearchObject.getPageable();
+        String search = dtoSearchObject.getSearch();
 
-    Map listMap = new HashMap<>();
-
-    ProductSite productSite = dtoSearchObject.getProductSite();
-    Pageable pageable = dtoSearchObject.getPageable();
-    String search = dtoSearchObject.getSearch();
-
-        switch (productSite.getSite()) {
-            case ROZETKA:
-                if (productSite.getProduct().equals(EnumProducts.TELEPHONES)) {
-                    if (!search.isEmpty()) {
+            switch (productSite.getSite()) {
+                case ROZETKA:
+                    if (productSite.getProduct().equals(EnumProducts.TELEPHONES)) {
+                        if (!search.isEmpty()) {
+                            Page<TelephonesRozetka> telephones =
+                                    telephoneRozetkaService.findAllByModelContains
+                                            (
+                                                    search, pageable
+                                            );
+                            listMap.put(telephones.getTotalPages(), telephones.getContent());
+                            return listMap;
+                        }
                         Page<TelephonesRozetka> telephones =
-                                telephoneRozetkaService.findAllByModelContains
+                                telephoneRozetkaService.findAllPageUsingPageable
                                         (
-                                                search, pageable
+                                                pageable.getPageNumber(), pageable.getPageSize()
                                         );
                         listMap.put(telephones.getTotalPages(), telephones.getContent());
                         return listMap;
-                    }
-                    Page<TelephonesRozetka> telephones =
-                            telephoneRozetkaService.findAllPageUsingPageable
+                    } else if (productSite.getProduct().equals(EnumProducts.TABLETS)) {
+                        if (!search.isEmpty()) {
+                            Page<TabletsRozetka> tablets = tabletRozetkaService.findAllByModelContains
                                     (
-                                            pageable.getPageNumber(), pageable.getPageSize()
+                                            search, pageable
                                     );
-                    listMap.put(telephones.getTotalPages(), telephones.getContent());
-                    return listMap;
-                } else if (productSite.getProduct().equals(EnumProducts.TABLETS)) {
-                    if (!search.isEmpty()) {
-                        Page<TabletsRozetka> tablets = tabletRozetkaService.findAllByModelContains
+
+                            listMap.put(tablets.getTotalPages(), tablets.getContent());
+                            return listMap;
+                        }
+
+                        Page<TabletsRozetka> tablets = tabletRozetkaService.findAllPageUsingPageable
                                 (
-                                        search, pageable
+                                        pageable.getPageNumber(), pageable.getPageSize()
                                 );
 
                         listMap.put(tablets.getTotalPages(), tablets.getContent());
                         return listMap;
                     }
-
-                    Page<TabletsRozetka> tablets = tabletRozetkaService.findAllPageUsingPageable
-                            (
-                                    pageable.getPageNumber(), pageable.getPageSize()
-                            );
-
-                    listMap.put(tablets.getTotalPages(), tablets.getContent());
-                    return listMap;
-                }
+            }
+            return listMap;
         }
-        return listMap;
-}
-}
+    }
