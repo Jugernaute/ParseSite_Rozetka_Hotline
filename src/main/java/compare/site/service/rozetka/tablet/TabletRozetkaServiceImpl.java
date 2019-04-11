@@ -41,8 +41,8 @@ public class TabletRozetkaServiceImpl
     }
 
     @Override
-    public ResponseLoadForFactory load(ProductSite productSite, WebClient webClient) {
-        int numPages = 2;
+    public ResponseLoadForFactory saveToBase(ProductSite productSite, WebClient webClient) {
+        deleteAllTablets();
         try {
             /*
              * how much pages are with telephs
@@ -52,12 +52,12 @@ public class TabletRozetkaServiceImpl
             List<HtmlSpan> listCountOfPages = pageHome.getByXPath("//span[@class='paginator-catalog-l-i-active hidden']");
             int countOfPages = Integer.parseInt(listCountOfPages.get(listCountOfPages.size()-1).asText());
 
-//            System.out.println(countOfPages);
             for (int j = 1; j <= 2; j++) {
                 String http = "https://rozetka.com.ua/tablets/c130309/filter/page=" + String.valueOf(j);
 
-                Map<Long, List<? super ProductAbstract>> longListMap = saveProduct.saveProduct(webClient, http, TabletsRozetka.class);
-                sizeOfProductInDb = GetNumberConcreteProductFromBase.getNumber(longListMap);
+                /*Map<Long, List<? super ProductAbstract>> longListMap = */
+                saveProduct(productSite, webClient, http);
+//                sizeOfProductInDb = GetNumberConcreteProductFromBase.getNumber(longListMap);
             }
             webClient.close();
             DateOfUpdate dateOfUpdateObj = new DateOfUpdate(productSite.getSite(), productSite.getProduct());
@@ -65,8 +65,16 @@ public class TabletRozetkaServiceImpl
         } catch (Exception e) {
             System.out.println("++++++++++++++++" + e.getMessage());
         }
-        return new ResponseLoadForFactory(sizeOfProductInDb, dateUpdateStr);
+        Long getNums = numberConcreteProductFromBase.getNum();
+        /*
+         * clear the counter from LoadProductAbstract.class
+         * */
+        nums=0;
+        return new ResponseLoadForFactory(String.valueOf(getNums), dateUpdateStr);
     }
 
-
+    @Override
+    public void deleteAllTablets() {
+        tabletsDao.deleteAll();
+    }
 }

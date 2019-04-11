@@ -17,8 +17,5 @@ public interface DateOfUpdateDao extends JpaRepository<DateOfUpdate, Integer> {
                                   @Param("site") String site,
                                   @Param("product") String product);
 
-//    @Query(value = "select parsing_site.date_of_update.date_time from parsing_site.date_of_update where site = :site and product = :product",nativeQuery = true)
-//    DateOfUpdate findByEnumSiteAndEnumProducts(@Param("site") EnumSite site,
-//                                               @Param("product") EnumProducts product);
     DateOfUpdate findByEnumSiteAndEnumProducts (EnumSite site, EnumProducts products);
 }

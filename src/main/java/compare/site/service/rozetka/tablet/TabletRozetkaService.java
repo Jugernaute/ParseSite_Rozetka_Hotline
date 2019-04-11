@@ -12,6 +12,7 @@ public interface TabletRozetkaService {
 
     Page<TabletsRozetka> findAllPageUsingPageable(int page, int size);
     Page<TabletsRozetka> findAllByModelContains(String s, Pageable pageable);
-    ResponseLoadForFactory load (ProductSite productSite, WebClient webClient);
+    ResponseLoadForFactory saveToBase (ProductSite productSite, WebClient webClient);
+    void deleteAllTablets ();
 
 }

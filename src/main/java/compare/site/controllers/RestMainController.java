@@ -1,7 +1,6 @@
 package compare.site.controllers;
 
 import compare.site.dto.searchProductPage.DtoSearchObject;
-import compare.site.entity.rozetka.TabletsRozetka;
 import compare.site.service.ResponseProductMainPage;
 import compare.site.service.rozetka.tablet.TabletRozetkaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,14 +37,11 @@ public class RestMainController {
 
     @PostMapping("/main/search")
     private Map search(@RequestBody DtoSearchObject dtoSearchObject){
-        int count =0;
-        Map<String, List<TabletsRozetka>> response = responseProductMainPage.response(dtoSearchObject);
-
-        return response;
+        return responseProductMainPage.response(dtoSearchObject);
     }
 
 
-    @PostMapping("main/loadTablets")
+    @PostMapping("main/loadProducts")
     public Map loadTablets (@RequestBody DtoSearchObject dtoSearchObject) {
         return responseProductMainPage.response(dtoSearchObject);
     }

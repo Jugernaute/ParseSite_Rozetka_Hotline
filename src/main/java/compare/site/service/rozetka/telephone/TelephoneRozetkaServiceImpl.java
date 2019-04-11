@@ -4,12 +4,10 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlSpan;
 import compare.site.dao.rozetka.TelephonesRozetkaDao;
-import compare.site.dto.productSite.DtoProductSite;
 import compare.site.dto.productSite.ProductSite;
 import compare.site.entity.dateOfUpdate.DateOfUpdate;
 import compare.site.entity.ProductAbstract;
 import compare.site.entity.rozetka.TelephonesRozetka;
-import compare.site.methods.SaveProduct;
 import compare.site.service.GetNumberConcreteProductFromBase;
 import compare.site.service.LoadProductAbstract;
 import compare.site.service.ResponseLoadForFactory;
@@ -20,8 +18,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 @Service
 @Transactional
@@ -45,7 +45,7 @@ public class TelephoneRozetkaServiceImpl extends LoadProductAbstract implements 
     }
 
     @Override
-    public ResponseLoadForFactory load(ProductSite productSite, WebClient webClient) {
+    public ResponseLoadForFactory saveToBase(ProductSite productSite, WebClient webClient) {
         deleteAllTelephones();
         try {
             /*
@@ -59,16 +59,20 @@ public class TelephoneRozetkaServiceImpl extends LoadProductAbstract implements 
             int numPages = 2;
             for (int j = 1; j <= 2; j++) {
                 String http = "https://rozetka.com.ua/mobile-phones/c80003/page=" + String.valueOf(j) + ";preset=smartfon/";
-                Map<Long, List<? super ProductAbstract>> longListMap = saveProduct.saveProduct(webClient, http, TelephonesRozetka.class);
-                sizeOfProductInDb = GetNumberConcreteProductFromBase.getNumber(longListMap);
+                saveProduct(productSite, webClient, http);
             }
             webClient.close();
             DateOfUpdate dateOfUpdate = new DateOfUpdate(productSite.getSite(), productSite.getProduct());
             dateUpdateStr = dateOfUpdateService.saveOrUpdateDateOfLoadSiteProduct(dateOfUpdate);
-            SaveProduct.nums = 0;
+
         } catch (Exception e) {
             System.out.println("++++++++++++++++" + e.getMessage());
         }
-        return new ResponseLoadForFactory(sizeOfProductInDb,dateUpdateStr);
+        Long getNums = numberConcreteProductFromBase.getNum();
+        /*
+        * clear the counter from LoadProductAbstract.class
+         * */
+        nums=0;
+        return new ResponseLoadForFactory(String.valueOf(getNums), dateUpdateStr);
     }
 }

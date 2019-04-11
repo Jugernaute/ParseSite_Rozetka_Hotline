@@ -1,19 +1,18 @@
 package compare.site.service.dateUpdate;
 
 import compare.site.dao.dateOfUpdate.DateOfUpdateDao;
-import compare.site.dto.productSite.DtoProductSite;
 import compare.site.dto.productSite.ProductSite;
 import compare.site.entity.dateOfUpdate.DateOfUpdate;
 import compare.site.entity.EnumProducts;
 import compare.site.entity.EnumSite;
-import compare.site.methods.SaveProduct;
+//import compare.site.service.SaveProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class DateOfUpdateServImpl implements DateOfUpdateService {
+public class DateOfUpdateServImpl  implements DateOfUpdateService {
     @Autowired
     private DateOfUpdateDao dateOfUpdateDao;
     @Autowired
@@ -44,7 +43,7 @@ public class DateOfUpdateServImpl implements DateOfUpdateService {
         } catch (NullPointerException e) {
             save(dateOfUpdate);
         }
-        SaveProduct.nums = 0;
+//        SaveProduct.nums = 0;
         return dateUpdate;
     }
 }

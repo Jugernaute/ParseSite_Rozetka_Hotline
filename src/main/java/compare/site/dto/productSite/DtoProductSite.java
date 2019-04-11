@@ -47,21 +47,6 @@ public class DtoProductSite {
     public void setProductSite(ProductSite productSite) {
         this.productSite = productSite;
     }
-//        public EnumSite getSite() {
-//        return site;
-//    }
-//
-//    public void setSite(EnumSite site) {
-//        this.site = site;
-//    }
-//
-//    public EnumProducts getProduct() {
-//        return product;
-//    }
-//
-//    public void setProduct(EnumProducts product) {
-//        this.product = product;
-//    }
 
     public int getSize() {
         return size;

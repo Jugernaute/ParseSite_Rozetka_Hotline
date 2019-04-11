@@ -4,7 +4,6 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @MappedSuperclass
-//@Entity
 public abstract class ProductAbstract {
 
     @Id

@@ -146,8 +146,8 @@
                 <label class="choose-product">Виберіть товар
                     <select>
                         <option value='0'>Виберіть</option>
-                        <option value='1'>Телефони</option>
-                        <option value='2'>Планшети</option>
+                        <option value='1'  th:text="${T(compare.site.entity.EnumProducts).TELEPHONES}"></option>
+                        <option value='2'  th:text="${T(compare.site.entity.EnumProducts).TABLETS}"></option>
                     </select>
                 </label>
                 <button class="btn-to-db">Закачати</button>

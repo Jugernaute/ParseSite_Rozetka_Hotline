@@ -34,11 +34,11 @@ h1{
     background: floralwhite;
 }
 
-.label-num-pages,
+.label-num-items,
 .search{
     display: -webkit-box;
 }
-.label-num-pages p {
+.label-num-items p {
     padding-right: 15px;
 }
 /*===========================*/

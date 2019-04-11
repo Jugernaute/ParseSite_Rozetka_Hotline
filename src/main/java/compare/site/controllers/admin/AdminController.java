@@ -3,7 +3,7 @@ package compare.site.controllers.admin;
 import com.gargoylesoftware.htmlunit.WebClient;
 import compare.site.dto.productSite.DtoProductSite;
 import compare.site.dto.productSite.ProductSite;
-import compare.site.service.FactoryLoadGoodsInBase;
+import compare.site.service.FactorySaveProducts;
 import compare.site.service.ResponseLoadForFactory;
 import compare.site.service.WebClientSettings;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class AdminController {
     @Autowired
     private DtoProductSite dtoProductSite;
     @Autowired
-    private FactoryLoadGoodsInBase factory;
+    private FactorySaveProducts factory;
     @Autowired
     private ProductSite productSite;
 
@@ -38,7 +38,6 @@ public class AdminController {
 * @ String site;
 * @ String product;
 **/
-
         productSite.create(site, product);
         dtoProductSite.createDto(productSite);
         Map<String,String> stringMap = new HashMap<>();
@@ -55,7 +54,7 @@ public class AdminController {
         WebClient webClient = WebClientSettings.webClientSettings(setCssEnabled,setJavaScriptEnabled,setThrowExceptionOnScriptError,waitForBackgroundJavaScript*1000);
 
 /*
-* Depending of DtoCreator.class we using Factory.class */
+* Depending of ProductSite.class we using FactorySaveProducts.class */
         ResponseLoadForFactory factory = this.factory.getFactory(productSite, webClient);
 /*
 * response on view

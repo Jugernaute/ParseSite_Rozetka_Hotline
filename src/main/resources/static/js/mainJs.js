@@ -12,7 +12,7 @@ $('#pagination').on('click', function (e) {
         data: JSON.stringify
         (
             {
-                size : fields.num_page,
+                size : fields.num_items,
                 search : fields.search,
                 product : fields.enum_product,
                 site : fields.site,
@@ -21,13 +21,16 @@ $('#pagination').on('click', function (e) {
         ),
         contentType: "application/json",
         success: function (result) {
-            let count = fields.current_page*fields.num_page-fields.num_page;
+            let count = fields.current_page*fields.num_items-fields.num_items;
             parseListFromController(result, count, fields.current_page);
         }
     })
 });
 
-$('.label-num-pages').on('change',function () {
+/*
+* how many items will be display in table
+* */
+$('.label-num-items').on('change',function () {
     let current_page = 1;
     let fields = collectFields();
 
@@ -37,7 +40,7 @@ $('.label-num-pages').on('change',function () {
         data: JSON.stringify
         (
             {
-                size : fields.num_page,
+                size : fields.num_items,
                 search : fields.search,
                 product : fields.enum_product,
                 site : fields.site,
@@ -47,7 +50,7 @@ $('.label-num-pages').on('change',function () {
         contentType: "application/json",
         success: function (result) {
             console.log(result);
-            let count = current_page*fields.num_page-fields.num_page;
+            let count = current_page*fields.num_items-fields.num_items;
             parseListFromController(result,count,current_page)
         }
     })
@@ -69,14 +72,14 @@ function handle(e){
             (
                 {
                     search: fields.search,
-                    size: fields.num_page,
+                    size: fields.num_items,
                     site: fields.site,
                     page: current_page,
                     product: fields.enum_product
                 }
             ),
             success: function (result) {
-                let count = current_page*fields.num_page-fields.num_page;
+                let count = current_page*fields.num_items-fields.num_items;
                 parseListFromController(result,count,current_page);
 
             }
@@ -107,13 +110,12 @@ $(on).on('click',function () {
 
 
 $('.category_select').on('change', function () {
-
     $('.search').find('p').css('display', 'none');
     let current_page = 1;
     let fields = collectFields();
 
         $.ajax({
-            url: '/main/loadTablets',
+            url: '/main/loadProducts',
             type: 'post',
             contentType: "application/json",
             data: JSON.stringify
@@ -121,13 +123,13 @@ $('.category_select').on('change', function () {
                 {
                     page: current_page, // only 1 must be!!!
                     search: fields.search,
-                    size: fields.num_page,
+                    size: fields.num_items,
                     product: fields.enum_product,
                     site: fields.site
                 }
             ),
             success: function (result) {
-                let count = current_page*fields.num_page-fields.num_page;
+                let count = current_page*fields.num_items-fields.num_items;
                 parseListFromController(result,count, current_page);
             }
     })
@@ -176,7 +178,7 @@ function collectFields() {
 
     responseArr.current_page = $('.active .current').text();
     responseArr.search = $('.search input').val();
-    responseArr.num_page = $('.num_pages option:selected').val();
+    responseArr.num_items = $('.num_items option:selected').val();
     responseArr.site = $('.site-select option:selected').text();
     responseArr.enum_product = $(".select .category_select:first-child option:selected").text();
 

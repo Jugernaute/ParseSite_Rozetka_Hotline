@@ -3,10 +3,8 @@ package compare.site.service;
 import compare.site.dto.productSite.ProductSite;
 import compare.site.dto.searchProductPage.DtoSearchObject;
 import compare.site.entity.EnumProducts;
-import compare.site.entity.ProductAbstract;
 import compare.site.entity.rozetka.TabletsRozetka;
 import compare.site.entity.rozetka.TelephonesRozetka;
-import compare.site.service.general.GeneralService;
 import compare.site.service.rozetka.tablet.TabletRozetkaService;
 import compare.site.service.rozetka.telephone.TelephoneRozetkaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +19,6 @@ import java.util.Map;
 public class ResponseProductMainPage {
     @Autowired
     private TelephoneRozetkaService telephoneRozetkaService;
-    @Autowired
-    private GeneralService<? super ProductAbstract> generalService;
     @Autowired
     private TabletRozetkaService tabletRozetkaService;
 
