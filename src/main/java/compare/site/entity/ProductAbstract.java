@@ -18,7 +18,7 @@ public abstract class ProductAbstract {
     private int price;
 
 
-    @Column (name = "descr", length = 2000)
+    @Column (name = "descr", length = 3000)
     private String descript;
 
     @Column (name = "link", length = 500)

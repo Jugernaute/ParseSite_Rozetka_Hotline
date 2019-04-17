@@ -51,7 +51,7 @@ public class TelephoneRozetkaServiceImpl extends LoadProductAbstract implements 
             /*
              * how much pages are with telephs
              * */
-            HtmlPage pageHome = webClient.getPage("https://rozetka.com.ua/mobile-phones/c80003/preset=smartfon/");
+            HtmlPage pageHome = webClient.getPage("https://www.mobilluck.com.ua/katalog/mobila/");
             List<HtmlSpan> listCountOfPages = pageHome.getByXPath("//span[@class='paginator-catalog-l-i-active hidden']");
             int countOfPages = Integer.parseInt(listCountOfPages.get(listCountOfPages.size()-1).asText());
 

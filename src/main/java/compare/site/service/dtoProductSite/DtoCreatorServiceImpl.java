@@ -5,8 +5,8 @@ import compare.site.dto.productSite.ProductSite;
 import compare.site.entity.EnumProducts;
 import compare.site.entity.EnumSite;
 import compare.site.entity.ProductAbstract;
-import compare.site.entity.hotline.TabletsHotline;
-import compare.site.entity.hotline.TelephonesHotline;
+import compare.site.entity.mobilluck.TabletsMobilluck;
+import compare.site.entity.mobilluck.TelephonesMobilluck;
 import compare.site.entity.rozetka.TabletsRozetka;
 import compare.site.entity.rozetka.TelephonesRozetka;
 import compare.site.dto.productSite.CopySiteProductDto;
@@ -29,10 +29,11 @@ public class DtoCreatorServiceImpl implements DtoCreatorService {
 
     @Override
     public Map<String, CopySiteProductDto> adminInfoAboutAllProducts() {
-        List listTabletsRozetka = generalService.findAllProducts(TabletsRozetka.class);
 
-        List listTelephonesHotline = generalService.findAllProducts(TelephonesHotline.class);
-        List listTabletsHotline = generalService.findAllProducts(TabletsHotline.class);
+        List listTelephonesRozetka = generalService.findAllProducts(TelephonesRozetka.class);
+        List listTabletsRozetka = generalService.findAllProducts(TabletsRozetka.class);
+        List listTelephonesMobilluck = generalService.findAllProducts(TelephonesMobilluck.class);
+        List listTabletsMobilluck = generalService.findAllProducts(TabletsMobilluck.class);
 
         Map<String, CopySiteProductDto> map = new HashMap<>();
 
@@ -41,7 +42,6 @@ public class DtoCreatorServiceImpl implements DtoCreatorService {
                 switch (site){
                     case ROZETKA:
                         if (products == EnumProducts.TELEPHONES) {
-                            List listTelephonesRozetka = generalService.findAllProducts(TelephonesRozetka.class);
                             productSite.create(EnumSite.ROZETKA.name(), EnumProducts.TELEPHONES.name());
                             dtoProductSite.createDto(productSite);
                             if (listTelephonesRozetka != null) {
@@ -64,27 +64,27 @@ public class DtoCreatorServiceImpl implements DtoCreatorService {
                             map.put("rozetkaTablets", copyClass);
                         }
                         break;
-                    case HOTLINE:
+                    case MOBILLUCK:
                         if (products == EnumProducts.TELEPHONES) {
                             productSite.create(site.name(), products.name());
                             dtoProductSite.createDto(productSite);
-                            if (listTelephonesHotline != null) {
-                                dtoProductSite.setSize(listTelephonesHotline.size());
+                            if (listTelephonesMobilluck != null) {
+                                dtoProductSite.setSize(listTelephonesMobilluck.size());
                             } else {
                                 dtoProductSite.setSize(0);
                             }
                             CopySiteProductDto copyClass = new CopySiteProductDto(dtoProductSite);
-                            map.put("hotlineTelephones", copyClass);
+                            map.put("mobilluckTelephones", copyClass);
                         } else if (products == EnumProducts.TABLETS) {
                             productSite.create(site.name(), products.name());
                             dtoProductSite.createDto(productSite);
-                            if (listTabletsHotline != null) {
-                                dtoProductSite.setSize(listTabletsHotline.size());
+                            if (listTabletsMobilluck != null) {
+                                dtoProductSite.setSize(listTabletsMobilluck.size());
                             } else {
                                 dtoProductSite.setSize(0);
                             }
                             CopySiteProductDto copyClass = new CopySiteProductDto(dtoProductSite);
-                            map.put("hotlineTablets", copyClass);
+                            map.put("mobilluckTablets", copyClass);
                             break;
                         }
                 }

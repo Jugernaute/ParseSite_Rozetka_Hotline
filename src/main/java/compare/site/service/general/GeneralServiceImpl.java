@@ -1,9 +1,13 @@
 package compare.site.service.general;
 
 import compare.site.dao.general.GeneralDao;
+import compare.site.dao.mobilluck.TabletsMobilluckDao;
+import compare.site.dao.mobilluck.TelephonesMobilluckDao;
 import compare.site.dao.rozetka.TabletsRozetkaDao;
 import compare.site.dao.rozetka.TelephonesRozetkaDao;
 import compare.site.entity.ProductAbstract;
+import compare.site.entity.mobilluck.TabletsMobilluck;
+import compare.site.entity.mobilluck.TelephonesMobilluck;
 import compare.site.entity.rozetka.TabletsRozetka;
 import compare.site.entity.rozetka.TelephonesRozetka;
 import compare.site.service.general.GeneralService;
@@ -25,6 +29,10 @@ public class GeneralServiceImpl<T extends ProductAbstract> implements GeneralSer
     private TelephonesRozetkaDao telephonesRozetkaDao;
     @Autowired
     private TabletsRozetkaDao tabletsRozetkaDao;
+    @Autowired
+    private TelephonesMobilluckDao telephonesMobilluckDao;
+    @Autowired
+    private TabletsMobilluckDao tabletsMobilluckDao;
 
     public T saveProduct(T t) {
         return generalDao.save(t);
@@ -36,6 +44,10 @@ public class GeneralServiceImpl<T extends ProductAbstract> implements GeneralSer
             return findAllTelephonesRozetka();
         }else if(aClass.equals(TabletsRozetka.class)){
             return findAllTabletsRozetka();
+        }else if (aClass.equals(TabletsMobilluck.class)){
+            return findAllTabletsMobilluck();
+        }else if (aClass.equals(TelephonesMobilluck.class)){
+            return findAllTelephonesMobilluck();
         }
         return null;
     }
@@ -46,6 +58,12 @@ public class GeneralServiceImpl<T extends ProductAbstract> implements GeneralSer
 
     private List<TelephonesRozetka> findAllTelephonesRozetka () {
         return telephonesRozetkaDao.findAll();
+    }
+    private List<TabletsMobilluck> findAllTabletsMobilluck () {
+        return tabletsMobilluckDao.findAll();
+    }
+    private List<TelephonesMobilluck> findAllTelephonesMobilluck () {
+        return telephonesMobilluckDao.findAll();
     }
 
     @Override

@@ -2,7 +2,6 @@ package compare.site.controllers;
 
 import compare.site.dto.searchProductPage.DtoSearchObject;
 import compare.site.service.ResponseProductMainPage;
-import compare.site.service.rozetka.tablet.TabletRozetkaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,8 +9,6 @@ import java.util.*;
 
 @RestController
 public class RestMainController {
-    @Autowired
-    private TabletRozetkaService tabletRozetkaService;
     @Autowired
     private ResponseProductMainPage responseProductMainPage;
 

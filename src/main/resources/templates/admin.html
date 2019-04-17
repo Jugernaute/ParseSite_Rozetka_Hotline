@@ -25,7 +25,7 @@
                     <tr>
                         <th></th>
                         <th th:text="${T(compare.site.entity.EnumSite).ROZETKA}"></th>
-                        <th th:text="${T(compare.site.entity.EnumSite).HOTLINE}"></th>
+                        <th th:text="${T(compare.site.entity.EnumSite).MOBILLUCK}"></th>
                     </tr>
                     <tr>
                         <th></th>
@@ -51,10 +51,10 @@
                         </td>
 
                         <td>
-                            <span th:each="iter : ${map}" th:if="${iter.key=='hotlineTelephones'}" th:text="${iter.value.size}">
+                            <span th:each="iter : ${map}" th:if="${iter.key=='mobilluckTelephones'}" th:text="${iter.value.size}">
                             </span>
                             <br>
-                            <span th:each="iter : ${map}" th:if="${iter.key=='hotlineTelephones'}" th:text="${iter.value.dateOfUpdate}">
+                            <span th:each="iter : ${map}" th:if="${iter.key=='mobilluckTelephones'}" th:text="${iter.value.dateOfUpdate}">
                             </span>
                         </td>
                     </tr>
@@ -73,10 +73,10 @@
                             </span>
                         </td>
                         <td>
-                            <span th:each="iter : ${map}" th:if="${iter.key=='hotlineTablets'}" th:text="${iter.value.size}">
+                            <span th:each="iter : ${map}" th:if="${iter.key=='mobilluckTablets'}" th:text="${iter.value.size}">
                             </span>
                             <br>
-                            <span th:each="iter : ${map}" th:if="${iter.key=='hotlineTablets'}" th:text="${iter.value.dateOfUpdate}">
+                            <span th:each="iter : ${map}" th:if="${iter.key=='mobilluckTablets'}" th:text="${iter.value.dateOfUpdate}">
                             </span>
                         </td>
                     </tr>
@@ -140,7 +140,7 @@
                     <select>
                         <option value='0'>Виберіть</option>
                         <option value='1'>Rozetka</option>
-                        <option value='2'>Hotline</option>
+                        <option value='2'>Mobilluck</option>
                     </select>
                 </label>
                 <label class="choose-product">Виберіть товар

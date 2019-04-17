@@ -5,7 +5,8 @@ import com.gargoylesoftware.htmlunit.html.*;
 import compare.site.dto.productSite.ProductSite;
 import compare.site.entity.EnumProducts;
 import compare.site.entity.ProductAbstract;
-import compare.site.entity.hotline.TabletsHotline;
+import compare.site.entity.mobilluck.TabletsMobilluck;
+import compare.site.entity.mobilluck.TelephonesMobilluck;
 import compare.site.entity.rozetka.TabletsRozetka;
 import compare.site.entity.rozetka.TelephonesRozetka;
 import compare.site.service.dateUpdate.DateOfUpdateService;
@@ -30,9 +31,14 @@ public abstract class LoadProductAbstract {
     protected String dateUpdateStr = "";
     protected static long nums = 0;
 
-    public abstract ResponseLoadForFactory saveToBase(ProductSite productSite, WebClient webClient);
+//    public abstract ResponseLoadForFactory saveToBase(ProductSite productSite, WebClient webClient);
 
     protected void saveProduct(ProductSite productSite, WebClient webClient, String httpLink) {
+        /*
+         * this number calculate how many products are on this(@numPages) page,
+         * when page change to another, the value of this number ( @c )
+         * is passed to another number (@count)
+         * */
         long count = 0;
         try {
             HtmlPage page = webClient.getPage(httpLink);
@@ -69,61 +75,81 @@ public abstract class LoadProductAbstract {
             //                    tablets.setPriceTelephone(Integer.parseInt(price));
                             generalService.saveProduct(tablets);
                         }
-
-
                     }
                     nums+=count;
                     numberConcreteProductFromBase.setNum(nums);
-                case HOTLINE:
-                        /*
-                         * all product on this site are in tag <li class = "product-item">
-                         *     which includes all necessary info about tablets.
-                         *     From every @li get :
-                         *     p[class='h4'] - modelProduct;
-                         * */
-                        List<HtmlElement> listModels = page.getByXPath("//div[@class='item-info']/p");
-
-                        /*
-                         * This string need for concat with link from List<HtmlAnchor> listLinks,
-                         * since each element from this list not have full address for link*/
-                        String addLink = "http://hotline.ua";
-                        List<HtmlAnchor> listLinks2 = page.getByXPath("//div[@class='item-info']/p[@class='h4']/a");
-                        /*
-                         * *     div[class='text']/p - descriptionProduct
-                         * */
-                        List<HtmlElement> listDescriptions = page.getByXPath("//div[@class='text']/p");
-
+                case MOBILLUCK:
+                    /*
+                    * main block with product, which include all info about this
+                    * */
+                    List<HtmlDivision> mainBlock = page.getByXPath("//div[@class='ccitem2']/div[@class='cci2info']");
+                    /*
+                    * using this cycle, get
+                    * @modelProduct,
+                    * @linkProduct,
+                    * @descriptionProduct,
+                    * @priceProduct
+                    * */
+                    for (HtmlDivision htmlDivision : mainBlock) {
+                        count++;
                         /*
                          * prices of products.
-                         * But working only when webClient.getOptions().setJavaScriptEnabled(true);
+                         * Sometimes(depending of site), get price is possible when webClient.getOptions().setJavaScriptEnabled(true)
+                         * In this case, its working without inclusion JavaScript
                          * It settings in WebClientSettings.class from page admin.html
-                         * By default is false */
-                        List<HtmlSpan> listPrices = page.getByXPath("//div[@class='price-md']/span[@class='value']");
+                         * By default is false
+                         * */
 
+                        List<HtmlElement> listPrices = htmlDivision.getByXPath("//p[@class='cci2_newprice']");
+                        HtmlElement htmlElement = listPrices.get(Math.toIntExact(count) - 1);
+                        String priceAsText = htmlElement.asText();
+                        String priceReplace = priceAsText.replaceAll("\\D+", "");
+                        Integer price = Integer.valueOf(priceReplace);
 
-                        count = 0;
-                        List<HtmlElement> totalProduct = page.getByXPath("//li[@class='product-item']");
-                    System.out.println(totalProduct.size());
-                        for (HtmlElement htmlDivision : totalProduct) {
-                            count++;
-                            TabletsHotline tabletsHotline = new TabletsHotline();
+                        /*
+                         * description
+                         * */
+                        List<HtmlDivision> listDescriptions = page.getByXPath("//div[@style='padding: 15px 0 15px 0; clear: left;']");
+                        HtmlDivision htmlDivision1 = listDescriptions.get(Math.toIntExact(count) - 1);
+                        String description = htmlDivision1.asText();
 
-                            tabletsHotline.setModel( listModels.get(Math.toIntExact(count-1)).asText());
-                            tabletsHotline.setLinkOnSite( addLink.concat(listLinks2.get(Math.toIntExact(count-1)).getHrefAttribute()));
-                            tabletsHotline.setDescript(listDescriptions.get(Math.toIntExact(count-1)).asText());
-                            String priceStr = listPrices.get(Math.toIntExact(count - 1)).asText().replaceAll("\\D+","");
-                            Integer price = Integer.valueOf(priceStr);
-                            tabletsHotline.setPrice(price);
-                            System.out.println(count);
-                            generalService.saveProduct(tabletsHotline);
+                        /*
+                        *model
+                        */
+                        DomElement firstElementChild = htmlDivision.getFirstElementChild();
+
+                        /*
+                        *link
+                        * */
+                        String href = firstElementChild.getFirstElementChild().getAttribute("href");
+                        String http = "http:";
+
+                        if (productSite.getProduct().equals(EnumProducts.TELEPHONES))
+                        {
+                            TelephonesMobilluck telephonesMobilluck = new TelephonesMobilluck();
+                            telephonesMobilluck.setModel(firstElementChild.asText());
+                            telephonesMobilluck.setDescript(description);
+                            telephonesMobilluck.setLinkOnSite(http.concat(href));
+                            telephonesMobilluck.setPrice(price);
+                            generalService.saveProduct(telephonesMobilluck);
                         }
-                    nums+=count;
-                    numberConcreteProductFromBase.setNum(nums);
+                        else if (productSite.getProduct().equals(EnumProducts.TABLETS))
+                        {
+                            TabletsMobilluck tabletsMobilluck = new TabletsMobilluck();
+                            tabletsMobilluck.setModel(firstElementChild.asText());
+                            tabletsMobilluck.setDescript(description);
+                            tabletsMobilluck.setLinkOnSite(http.concat(href));
+                            tabletsMobilluck.setPrice(price);
+                            generalService.saveProduct(tabletsMobilluck);
+                        }
+                    }
+                nums+=count;
+                numberConcreteProductFromBase.setNum(nums);
             }
-        } catch (IOException e)
+        }catch (IOException e)
         {
             e.printStackTrace();
         }
     }
-};
+}
 

@@ -2,7 +2,8 @@ package compare.site.service;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import compare.site.dto.productSite.ProductSite;
-import compare.site.service.hotline.tablets.TabletsHotlineService;
+import compare.site.service.mobilluck.tablets.TabletsMobilluckService;
+import compare.site.service.mobilluck.telephones.TelephonesMobilluckService;
 import compare.site.service.rozetka.tablet.TabletRozetkaService;
 import compare.site.service.rozetka.telephone.TelephoneRozetkaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,9 @@ public class FactorySaveProducts {
     @Autowired
     private TabletRozetkaService tabletRozetkaService;
     @Autowired
-    private TabletsHotlineService tabletsHotlineService;
+    private TabletsMobilluckService tabletMobilluckService;
+    @Autowired
+    private TelephonesMobilluckService telephonesMobilluckService;
 
     public ResponseLoadForFactory getFactory(ProductSite productSite, WebClient webClient){
         ResponseLoadForFactory productAbstract = null;
@@ -30,13 +33,13 @@ public class FactorySaveProducts {
                         break;
                 }
                 break;
-            case HOTLINE:
+            case MOBILLUCK:
                 switch (productSite.getProduct()){
                     case TABLETS:
-                        productAbstract = tabletsHotlineService.saveToBase(productSite, webClient);
+                        productAbstract = tabletMobilluckService.saveToBase(productSite, webClient);
                         break;
                     case TELEPHONES:
-//                        productAbstract = new TelephonesHotlineLoad();
+                        productAbstract = telephonesMobilluckService.saveToBase(productSite, webClient);
                         break;
                 }
                 break;

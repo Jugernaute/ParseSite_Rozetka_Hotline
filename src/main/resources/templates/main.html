@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>COMPARATOR_SITE</title>
@@ -19,15 +19,15 @@
                 <label>
                     <select class="site-select">
                         <option value="0">Виберіть сайт</option>
-                        <option value="1">ROZETKA</option>
-                        <option value="2">HOTLINE</option>
+                        <option value="1" th:text="${T(compare.site.entity.EnumSite).ROZETKA}"></option>
+                        <option value="2" th:text="${T(compare.site.entity.EnumSite).MOBILLUCK}"></option>
                     </select>
                 </label>
                 <label>
                     <select class="category_select">
                         <option value="0">Виберіть категорію товару</option>
-                        <option value="1">Telephones</option>
-                        <option value="2">Tablets</option>
+                        <option value="1" th:text="${T(compare.site.entity.EnumProducts).TELEPHONES}">Telephones</option>
+                        <option value="2" th:text="${T(compare.site.entity.EnumProducts).TABLETS}"></option>
                     </select>
                 </label>
             </div>

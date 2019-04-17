@@ -110,33 +110,50 @@ $(on).on('click',function () {
 
 
 $('.category_select').on('change', function () {
-    $('.search').find('p').css('display', 'none');
-    let current_page = 1;
-    let fields = collectFields();
+    selectCall()
+});
 
-        $.ajax({
-            url: '/main/loadProducts',
-            type: 'post',
-            contentType: "application/json",
-            data: JSON.stringify
-            (
-                {
-                    page: current_page, // only 1 must be!!!
-                    search: fields.search,
-                    size: fields.num_items,
-                    product: fields.enum_product,
-                    site: fields.site
-                }
-            ),
-            success: function (result) {
-                let count = current_page*fields.num_items-fields.num_items;
-                parseListFromController(result,count, current_page);
-            }
-    })
+$('.site-select').on('change', function () {
+    selectCall();
+});
+$('a').attr($('td .giperlink a').val(), '_blank');
+$('.tbody td a').on('click', function (e) {
+    e.preventDefault();
+    alert($(this).attr('href'));
 });
 
                 /*>>>>>>>>>>>>>>>>>>    functions   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<*/
+function selectCall() {
+    if (
+        $('.category_select option:selected').val() == "0" ||
+        $('.site-select option:selected').val() == "0")
+    {
+        return;
+    }
+    $('.search').find('p').css('display', 'none');
+    // let current_page = 1;
+    let fields = collectFields();
 
+    $.ajax({
+        url: '/main/loadProducts',
+        type: 'post',
+        contentType: "application/json",
+        data: JSON.stringify
+        (
+            {
+                page: 1, // only 1 must be!!!
+                search: fields.search,
+                size: fields.num_items,
+                product: fields.enum_product,
+                site: fields.site
+            }
+        ),
+        success: function (result) {
+            let count = 1*fields.num_items-fields.num_items;
+            parseListFromController(result,count, 1);
+        }
+    })
+}
 function parseListFromController(result, count, current_page) {
     $('.tbody').empty();
     let totalElements;
@@ -157,12 +174,14 @@ function parseListFromController(result, count, current_page) {
             count++;
             $('.tbody').append('<tr><th scope="row">'+count+'</th><td class="td_cl"><p style="color: blue">'+y.model+
                 '</p><div class="hidden">'+y.descript+'</div></td>' +
-                '<td>'+y.price+'</td><td><a href="'+y.linkOnSite+'" class="giperlink">link</a></td></tr>');
+                '<td>'+y.price+'</td><td><a href="'+y.linkOnSite+'" onclick="googleGo(\"'+y.linkOnSite+'\")" class="giperlink">link</a></td></tr>');
         })
     });
     $('.result-search').append(totalElements + " результатів");
 }
-
+function googleGo(link){
+    window.open(link, '_blank')
+}
 /*
 * collects information from:
 * @search - input search;
