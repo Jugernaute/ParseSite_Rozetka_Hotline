@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -cp target/classes:target/dependency/*   compare.site.SiteApplication
+web: java $java_opts -cp target/classes:target/dependency/* site
