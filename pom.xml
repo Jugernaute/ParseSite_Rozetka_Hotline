@@ -114,20 +114,22 @@
                         <id>copy-dependencies</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>build-info</goal>
+                            <goal>run</goal>
                         </goals>
-                        <!--<configuration>-->
+                        <configuration>
                             <!--<additionalProperties>-->
-                            <!--<artifactItems>-->
-                                <!--<artifactItem>-->
-                                    <!--<groupId>com.github.jsimone</groupId>-->
-                                    <!--<artifactId>webapp-runner</artifactId>-->
-                                    <!--<version>8.0.24.0</version>-->
-                                    <!--<destFileName>webapp-runner.jar</destFileName>-->
-                                <!--</artifactItem>-->
-                            <!--</artifactItems>-->
+                            <addResources>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.github.jsimone</groupId>
+                                    <artifactId>webapp-runner</artifactId>
+                                    <version>8.0.24.0</version>
+                                    <destFileName>webapp-runner.jar</destFileName>
+                                </artifactItem>
+                            </artifactItems>
+                            </addResources>
                             <!--</additionalProperties>-->
-                        <!--</configuration>-->
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
