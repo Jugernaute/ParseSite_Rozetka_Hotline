@@ -1,1 +1,1 @@
-web: java -cp target/classes/:target/dependency/* site
+web: java -cp target/classes/:target/dependency/* compare.site
