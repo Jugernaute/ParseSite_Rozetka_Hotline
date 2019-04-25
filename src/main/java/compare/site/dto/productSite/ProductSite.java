@@ -4,6 +4,7 @@ import compare.site.entity.EnumProducts;
 import compare.site.entity.EnumSite;
 import org.springframework.stereotype.Component;
 
+
 @Component
 public class ProductSite {
     private EnumSite site;

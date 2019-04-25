@@ -36,7 +36,7 @@ $('.btn-to-db').on('click', function () {
         $('#loading').removeClass('hidden');
         $('.main').addClass('blur');
         $.ajax({
-			url: '/admin/loadInDataBase',
+			url: '/admin/uploadInDataBase',
             type: 'post',
             // contentType: "application/json",
 			data: {site: site, product: product, waitForBackgroundJavaScript: textWaitJs, setCssEnabled: textCss,

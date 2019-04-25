@@ -1,6 +1,6 @@
 package compare.site.controllers;
 
-import compare.site.dto.searchProductPage.DtoSearchObject;
+import compare.site.dto.searchProduct.DtoSearchObject;
 import compare.site.service.ResponseProductMainPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

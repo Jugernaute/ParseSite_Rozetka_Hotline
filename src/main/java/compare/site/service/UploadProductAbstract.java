@@ -16,42 +16,62 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.io.IOException;
 import java.util.List;
 
-public abstract class LoadProductAbstract {
+
+public abstract class UploadProductAbstract {
 
     @Autowired
     public GeneralService<? super ProductAbstract> generalService;
-
     @Autowired
     public DateOfUpdateService dateOfUpdateService;
     @Autowired
-    public GetNumberConcreteProductFromBase numberConcreteProductFromBase;
+    public NumberConcreteProductInBase numberConcreteProductInBase;
 
 
     public ProductSite productSite;
     protected String dateUpdateStr = "";
+    /* how many products are on site*/
     protected static long nums = 0;
 
-//    public abstract ResponseLoadForFactory saveToBase(ProductSite productSite, WebClient webClient);
-
+     /**
+     * @param productSite - include names of site and product
+     * @param httpLink - link on site with concrete product
+     * */
     protected void saveProduct(ProductSite productSite, WebClient webClient, String httpLink) {
-        /*
-         * this number calculate how many products are on this(@numPages) page,
-         * when page change to another, the value of this number ( @c )
-         * is passed to another number (@count)
+        /**
+         * this numeric calculate how many products are on page (@numPages) of site.
+         * When page change to another, the value of this numeric
+         * is passed to another number {@link nums}
          * */
         long count = 0;
         try {
+            /**
+              * @exception java.io.IOException if an IO problem occurs.
+              * @exception java.net.MalformedURLException if an error occurred when creating a URL object
+              *
+              * @param httpLink url site with one page, come from service level
+              *                 where number of page - changes.
+              */
             HtmlPage page = webClient.getPage(httpLink);
             switch (productSite.getSite()){
                 case ROZETKA:
-                    /*
-                     * main block with all info about telephone
-                     * */
-                    List<HtmlDivision> byXPath2 = page.getByXPath("//div[@class='g-i-tile-i-box-desc']");
 
+                    /* main domElement with all info about product,
+                     * that contains description, link, price and model */
+                    List<HtmlDivision> mainBlock = page.getByXPath("//div[@class='g-i-tile-i-box-desc']");
+
+                    /*links on product*/
                     List<HtmlAnchor> listLinks = page.getByXPath("//a[@class='responsive-img centering-child-img']");
+
+                    /**
+                     * prices on product,
+                     * but at this moment prices product dont used,
+                     * because this requires {<code>setJavaScriptEnabled=true</code>} {@link WebClientSettings}
+                     * and this will lead to a fairly long download of the information
+                     */
                     List<HtmlDivision> listPrice = page.getByXPath("//div[@class='g-price-uah']");
-                    for (HtmlDivision htmlDivision : byXPath2)
+
+
+                    for (HtmlDivision htmlDivision : mainBlock)
                     {
                         count++;
                         List<HtmlDivision> listModel = htmlDivision.getByXPath("//div[@class='g-i-tile-i-title clearfix']");
@@ -63,8 +83,10 @@ public abstract class LoadProductAbstract {
                             telephones.setModel(listModel.get(Math.toIntExact(count - 1)).asText());
                             telephones.setDescript(description);
                             telephones.setLinkOnSite(listLinks.get(Math.toIntExact(count - 1)).getHrefAttribute());
+//                            String priceAsText = listPrice.get(Math.toIntExact(count - 1)).asText();
+//                            int price = Integer.valueOf(priceAsText.replaceAll("\\D+", ""));
+//                            telephones.setPrice(price);
                             generalService.saveProduct(telephones);
-            //                    telephones.setPriceTelephone(Integer.parseInt(price));
                         }
                             else if (productSite.getProduct().equals(EnumProducts.TABLETS))
                         {
@@ -77,27 +99,21 @@ public abstract class LoadProductAbstract {
                         }
                     }
                     nums+=count;
-                    numberConcreteProductFromBase.setNum(nums);
+                    numberConcreteProductInBase.setNum(nums);
+                    break;
                 case MOBILLUCK:
-                    /*
-                    * main block with product, which include all info about this
-                    * */
-                    List<HtmlDivision> mainBlock = page.getByXPath("//div[@class='ccitem2']/div[@class='cci2info']");
-                    /*
-                    * using this cycle, get
-                    * @modelProduct,
-                    * @linkProduct,
-                    * @descriptionProduct,
-                    * @priceProduct
-                    * */
-                    for (HtmlDivision htmlDivision : mainBlock) {
+                    /* main domElement with all info about product,
+                     * that contains description, link, price and model */
+                    List<HtmlDivision> mainBlock2 = page.getByXPath("//div[@class='ccitem2']/div[@class='cci2info']");
+
+                    for (HtmlDivision htmlDivision : mainBlock2) {
                         count++;
+
                         /*
                          * prices of products.
                          * Sometimes(depending of site), get price is possible when webClient.getOptions().setJavaScriptEnabled(true)
                          * In this case, its working without inclusion JavaScript
                          * It settings in WebClientSettings.class from page admin.html
-                         * By default is false
                          * */
 
                         List<HtmlElement> listPrices = htmlDivision.getByXPath("//p[@class='cci2_newprice']");
@@ -116,18 +132,18 @@ public abstract class LoadProductAbstract {
                         /*
                         *model
                         */
-                        DomElement firstElementChild = htmlDivision.getFirstElementChild();
+                        DomElement model = htmlDivision.getFirstElementChild();
 
                         /*
                         *link
                         * */
-                        String href = firstElementChild.getFirstElementChild().getAttribute("href");
+                        String href = model.getFirstElementChild().getAttribute("href");
                         String http = "http:";
 
                         if (productSite.getProduct().equals(EnumProducts.TELEPHONES))
                         {
                             TelephonesMobilluck telephonesMobilluck = new TelephonesMobilluck();
-                            telephonesMobilluck.setModel(firstElementChild.asText());
+                            telephonesMobilluck.setModel(model.asText());
                             telephonesMobilluck.setDescript(description);
                             telephonesMobilluck.setLinkOnSite(http.concat(href));
                             telephonesMobilluck.setPrice(price);
@@ -136,15 +152,16 @@ public abstract class LoadProductAbstract {
                         else if (productSite.getProduct().equals(EnumProducts.TABLETS))
                         {
                             TabletsMobilluck tabletsMobilluck = new TabletsMobilluck();
-                            tabletsMobilluck.setModel(firstElementChild.asText());
+                            tabletsMobilluck.setModel(model.asText());
                             tabletsMobilluck.setDescript(description);
                             tabletsMobilluck.setLinkOnSite(http.concat(href));
                             tabletsMobilluck.setPrice(price);
                             generalService.saveProduct(tabletsMobilluck);
                         }
                     }
-                nums+=count;
-                numberConcreteProductFromBase.setNum(nums);
+                    nums+=count;
+                numberConcreteProductInBase.setNum(nums);
+                    break;
             }
         }catch (IOException e)
         {

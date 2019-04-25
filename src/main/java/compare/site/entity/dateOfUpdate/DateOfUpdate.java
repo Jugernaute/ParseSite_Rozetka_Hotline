@@ -1,5 +1,6 @@
 package compare.site.entity.dateOfUpdate;
 
+import compare.site.dto.productSite.ProductSite;
 import compare.site.entity.EnumProducts;
 import compare.site.entity.EnumSite;
 
@@ -28,11 +29,11 @@ public class DateOfUpdate {
     public DateOfUpdate() {
     }
 
-    public DateOfUpdate(EnumSite enumSite, EnumProducts enumProducts) {
+    public DateOfUpdate(ProductSite productSite) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss");
         this.dateTime = ZonedDateTime.now().format(formatter);
-        this.enumSite = enumSite;
-        this.enumProducts = enumProducts;
+        this.enumSite = productSite.getSite();
+        this.enumProducts = productSite.getProduct();
     }
 
     public void setDateTime(String dateTime) {

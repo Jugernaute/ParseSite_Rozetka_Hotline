@@ -5,7 +5,8 @@ import compare.site.dto.productSite.ProductSite;
 import compare.site.entity.dateOfUpdate.DateOfUpdate;
 import compare.site.entity.EnumProducts;
 import compare.site.entity.EnumSite;
-//import compare.site.service.SaveProduct;
+import compare.site.service.NumberConcreteProductInBase;
+import compare.site.service.ResponseUploadForFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,8 @@ public class DateOfUpdateServImpl  implements DateOfUpdateService {
     private DateOfUpdateDao dateOfUpdateDao;
     @Autowired
     private ProductSite productSite;
+    @Autowired
+    private NumberConcreteProductInBase numberConcreteProductInBase;
 
     @Override
     public void save(DateOfUpdate dateOfUpdate) {
@@ -33,9 +36,15 @@ public class DateOfUpdateServImpl  implements DateOfUpdateService {
         return dateOfUpdateDao.findByEnumSiteAndEnumProducts(site,product);
     }
 
+    /**
+     * Method that check, is {@link ProductSite} save as {@link DateOfUpdate} earlier,
+     * this affects whether we need to save or update.
+     * @exception NullPointerException if isn't save earlier.
+     * */
     @Override
-    public String saveOrUpdateDateOfLoadSiteProduct(DateOfUpdate dateOfUpdate) {
+    public ResponseUploadForFactory responseUploadForFactory() {
         String dateUpdate=null;
+        DateOfUpdate dateOfUpdate = new DateOfUpdate(productSite);
         try {
             dateUpdate = dateOfUpdate.getDateTime();
             findByProductsAndSite(productSite.getSite(), productSite.getProduct()).getDateTime();
@@ -43,7 +52,8 @@ public class DateOfUpdateServImpl  implements DateOfUpdateService {
         } catch (NullPointerException e) {
             save(dateOfUpdate);
         }
-//        SaveProduct.nums = 0;
-        return dateUpdate;
+        /*Calculate how much products are upload to DB*/
+        Long getNums = numberConcreteProductInBase.getNum();
+        return new ResponseUploadForFactory(String.valueOf(getNums), dateUpdate);
     }
 }

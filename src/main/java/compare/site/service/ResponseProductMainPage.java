@@ -1,7 +1,7 @@
 package compare.site.service;
 
 import compare.site.dto.productSite.ProductSite;
-import compare.site.dto.searchProductPage.DtoSearchObject;
+import compare.site.dto.searchProduct.DtoSearchObject;
 import compare.site.entity.EnumProducts;
 import compare.site.entity.mobilluck.TabletsMobilluck;
 import compare.site.entity.mobilluck.TelephonesMobilluck;
@@ -19,6 +19,11 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class load on main page {<path>..templates/main.html</path>}
+ * products which depending from
+ * {@link DtoSearchObject}
+ */
 @Component
 public class ResponseProductMainPage {
     @Autowired
@@ -29,6 +34,7 @@ public class ResponseProductMainPage {
     private TabletsMobilluckService tabletsMobilluckService;
     @Autowired
     private TelephonesMobilluckService telephonesMobilluckService;
+
 
     public Map response(DtoSearchObject dtoSearchObject) {
         Map listMap = new HashMap<>();

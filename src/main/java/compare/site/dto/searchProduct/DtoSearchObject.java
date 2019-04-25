@@ -1,4 +1,4 @@
-package compare.site.dto.searchProductPage;
+package compare.site.dto.searchProduct;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import compare.site.dto.productSite.ProductSite;
