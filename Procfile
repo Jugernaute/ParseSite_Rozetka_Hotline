@@ -1,1 +1,1 @@
-web: java SiteApplication.class -cp target/classes:target/dependency/*   compare.site.SiteApplication
+web: java SiteApplication -cp target/classes:target/dependency/*   compare.site.SiteApplication
