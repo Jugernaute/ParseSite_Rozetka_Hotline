@@ -12,7 +12,7 @@
     <artifactId>site</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>site</name>
-    <description>rozetka and hotline project for Spring Boot</description>
+    <description>rozetka and mobilluck project for Spring Boot</description>
 
 	  
     <properties>
