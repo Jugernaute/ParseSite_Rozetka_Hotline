@@ -43,6 +43,10 @@ public class SiteApplication {
         }
     }
 
+    @Autowired
+    private DataSource dataSource;
+
+
     @RequestMapping("/db")
     String db(Map<String, Object> model) {
         try (Connection connection = dataSource.getConnection()) {
@@ -65,8 +69,6 @@ public class SiteApplication {
         }
     }
 
-    @Autowired
-    private DataSource dataSource;
 
 
 
