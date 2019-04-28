@@ -43,12 +43,11 @@ public class SiteApplication {
         }
     }
 
-    @Autowired
-    private DataSource dataSource;
+
 
 
     @RequestMapping("/db")
-    String db(Map<String, Object> model) {
+    String db(Map<String, Object> model, DataSource dataSource) {
         try (Connection connection = dataSource.getConnection()) {
             Statement stmt = connection.createStatement();
             stmt.executeUpdate("CREATE TABLE ticks (tick timestamp)");
