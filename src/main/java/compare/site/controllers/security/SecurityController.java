@@ -27,6 +27,14 @@ public class SecurityController {
 //        webClient.waitForBackgroundJavaScript(2000);
         webClient.getOptions().setCssEnabled(false);
 
+        System.out.println(System.getenv());
+
+
+
+
+
+
+
  /*
  * Response to admin.html which browser client want to use;
  * This info need for next (@WebClientSettings)

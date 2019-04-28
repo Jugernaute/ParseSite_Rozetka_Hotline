@@ -3,6 +3,11 @@
 <body>
 <div class="container">
     <p th:text="${science}"></p>
+
+    <h1>Database Output</h1>
+    <ul th:each="record : ${records}">
+        <li th:text="${record}"/>
+    </ul>
 </div>
 </body>
 </html>
