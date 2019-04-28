@@ -32,16 +32,16 @@ public class SiteApplication {
     @Value("${spring.datasource.url}")
     private String dbUrl;
 
-    @Bean
-    public DataSource dataSource() throws SQLException {
-        if (dbUrl == null || dbUrl.isEmpty()) {
-            return new HikariDataSource();
-        } else {
-            HikariConfig config = new HikariConfig();
-            config.setJdbcUrl(dbUrl);
-            return new HikariDataSource(config);
-        }
-    }
+//    @Bean
+//    public DataSource dataSource() throws SQLException {
+//        if (dbUrl == null || dbUrl.isEmpty()) {
+//            return new HikariDataSource();
+//        } else {
+//            HikariConfig config = new HikariConfig();
+//            config.setJdbcUrl(dbUrl);
+//            return new HikariDataSource(config);
+//        }
+//    }
 
 
 
