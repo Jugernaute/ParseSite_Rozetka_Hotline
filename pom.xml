@@ -108,6 +108,14 @@
             <version>0.0.20131108.vaadin1</version>
         </dependency>
 
+    <!--BasicDataSource-->
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>1.4</version>
+        </dependency>
+
+        <!--heroku config-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>

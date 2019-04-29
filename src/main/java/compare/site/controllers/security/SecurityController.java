@@ -5,6 +5,10 @@ import compare.site.entity.*;
 import compare.site.dto.productSite.CopySiteProductDto;
 import compare.site.service.dtoProductSite.DtoCreatorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -13,8 +17,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.*;
 
+
 @Controller
 public class SecurityController {
+
 
     @Autowired
     DtoCreatorService dtoCreatorService;
@@ -27,7 +33,9 @@ public class SecurityController {
 //        webClient.waitForBackgroundJavaScript(2000);
         webClient.getOptions().setCssEnabled(false);
 
-        System.out.println(System.getenv());
+
+
+
 
 
 
