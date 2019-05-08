@@ -6,6 +6,4 @@ import javax.persistence.Entity;
 
 @Entity
 public class TelephonesMobilluck extends ProductAbstract {
-
-
 }

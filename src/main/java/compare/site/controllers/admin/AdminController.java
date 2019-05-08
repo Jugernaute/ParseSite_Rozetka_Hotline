@@ -23,7 +23,7 @@ public class AdminController {
 
 /**
 *Its come from admin.js and using for upload product in data base
- * next params chossing by user:
+ * next params choosing by user:
  * @param site - choose site,
  * @param product - choose product,
  * @param waitForBackgroundJavaScript - {@link WebClientSettings}
@@ -65,10 +65,9 @@ public class AdminController {
 * response on view
 * @listSize - how many this products are in DB;
 * @dateUpdate - date of update table with product in DB*/
-        System.out.println(factory.getSize());
-        System.out.println(factory.getDateUpdate());
         stringMap.put("listSize", factory.getSize());
         stringMap.put("dataUpdate", factory.getDateUpdate());
+
         return stringMap;
     }
 }

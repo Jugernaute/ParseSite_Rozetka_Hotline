@@ -10,15 +10,5 @@ import javax.persistence.*;
 @AttributeOverride(name="model",column=@Column(name="modelTelephones"))
 public class TelephonesRozetka  extends ProductAbstract {
 
-//    @ManyToOne(fetch = FetchType.EAGER,
-//    cascade = CascadeType.ALL)
-//    DateOfUpdate dateOfUpdate;
 
-
-    public TelephonesRozetka() {
-    }
-
-    public TelephonesRozetka(String model, int price, String descript, String linkOnSite, EnumSite enumSite, EnumProducts enumProducts) {
-        super(model, price, descript, linkOnSite, enumSite, enumProducts);
-    }
 }

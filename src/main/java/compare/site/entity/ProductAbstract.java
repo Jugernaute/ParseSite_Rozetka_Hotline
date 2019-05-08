@@ -7,7 +7,7 @@ import java.util.Objects;
 public abstract class ProductAbstract {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "id")
     private long id;
 

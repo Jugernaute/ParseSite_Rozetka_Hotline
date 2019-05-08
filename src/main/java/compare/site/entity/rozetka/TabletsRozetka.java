@@ -10,10 +10,4 @@ import javax.persistence.*;
 @AttributeOverride(name="model",column=@Column(name="modelTablets"))
 public class TabletsRozetka extends ProductAbstract {
 
-    public TabletsRozetka() {
-    }
-
-    public TabletsRozetka(String model, int price, String descript, String linkOnSite, EnumSite enumSite, EnumProducts enumProducts) {
-        super(model, price, descript, linkOnSite, enumSite, enumProducts);
-    }
 }

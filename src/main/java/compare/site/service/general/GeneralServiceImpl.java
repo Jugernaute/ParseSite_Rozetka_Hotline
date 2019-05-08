@@ -34,8 +34,8 @@ public class GeneralServiceImpl<T extends ProductAbstract> implements GeneralSer
     @Autowired
     private TabletsMobilluckDao tabletsMobilluckDao;
 
-    public T saveProduct(T t) {
-        return generalDao.save(t);
+    public void saveProduct(T t) {
+        generalDao.save(t);
     }
 
     @Override
